@@ -104,6 +104,24 @@
         button:hover {
             background-color: #388e3c;
         }
+        /* Style de la conclusion */
+        #conclusion {
+            background-color: #1a237e;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        #conclusion h2 {
+            color: white;
+            border-bottom: 3px solid #64b5f6;
+            margin-bottom: 15px;
+        }
+        #conclusion p strong {
+            color: #ffeb3b; /* Jaune vif pour l'accentuation */
+        }
+        
         footer {
             text-align: center;
             padding: 20px;
@@ -132,17 +150,17 @@
                     <li><strong>Comprendre le Hachage :</strong> Le <strong>hachage</strong> est un processus qui rend votre mot de passe illisible et irréversible pour le serveur. Même si la base de données est volée, les attaquants ne trouvent que des 'empreintes' (hashs) et non le mot de passe en clair.</li>
                     <li><strong>La Longueur est la Clé :</strong> Visez des phrases de passe longues (14 caractères minimum) plutôt que des mots complexes mais courts. <strong>Exemple : <code>Ch@uv€-s0ur1s-B1eu€-18!</code></strong></li>
                     <li><strong>Unicité Totale :</strong> N'utilisez <strong>JAMAIS</strong> le même mot de passe. Cela prévient le "Credential Stuffing" (utilisation d'identifiants volés sur d'autres services).</li>
-                    <li><strong>Double Authentification (2FA/MFA) :</strong> Activez-la partout. Privilégiez l'<strong>authentification sans mot de passe</strong> (Passkeys) ou l'utilisation d'applications d'authentification (TotP) qui sont plus sûres que les SMS. [attachment_1](attachment)</li>
+                    <li><strong>Double Authentification (2FA/MFA) :</strong> Activez-la partout. Privilégiez l'<strong>authentification sans mot de passe</strong> (Passkeys) ou l'utilisation d'applications d'authentification (TotP) qui sont plus sûres que les SMS.</li>
                 </ul>
             </div>
 
             <div class="role-advice">
-                <h3>3 Réflexes de Cyber-Défense Contre les Menaces d'Ingénierie Sociale</h3>
+                <h3>4 Réflexes de Cyber-Défense Contre les Menaces d'Ingénierie Sociale</h3>
                 <ol>
-                    <li><strong>Phishing, Quishing et MFA Phishing :</strong> Méfiez-vous des e-mails sophistiqués (IA Générative) et des **faux codes QR (Quishing)**. De plus, ne donnez <strong>JAMAIS</strong> votre code de Double Authentification (OTP) sur un site non vérifié. Les attaquants utilisent le **MFA Phishing** pour vous le soutirer. <strong>Vérifiez TOUJOURS l'URL</strong>.</li>
+                    <li><strong>Phishing (Types Avancés) :</strong> Méfiez-vous des e-mails sophistiqués (IA Générative), des faux codes QR (Quishing), du Typosquatting (domaine avec faute de frappe intentionnelle) et du MFA Phishing (vol du code 2FA). <strong>Vérifiez TOUJOURS l'URL</strong>.</li>
                     <li><strong>Détournement de Session (Session Hijacking) :</strong> La 2FA ne vous protège pas contre le vol de votre session active (cookie). Si vous vous connectez à un site malveillant, il peut voler votre session. <strong>Déconnectez-vous toujours</strong> des applications sensibles lorsque vous ne les utilisez pas.</li>
-                    <li><strong>Malware (Ransomware, Spyware) :</strong> Le <strong>Ransomware</strong> (rançongiciel) est l'attaque la plus destructrice. Si l'antivirus signale un problème, <strong>déconnectez immédiatement</strong> votre poste du réseau et alertez le support. [attachment_2](attachment)</li>
-                    <li><strong>Clés USB Piégées (Baiting) :</strong> Ne connectez <strong>JAMAIS un équipement inconnu (clé USB)</strong> trouvé dans un lieu public (parking, salon). Ces supports sont des appâts (Baiting) souvent piégés pour injecter des malwares.</li>
+                    <li><strong>Malware (Ransomware, Spyware) :</strong> Le <strong>Ransomware</strong> est l'attaque la plus destructrice. Elle vise le chiffrement ET l'<strong>exfiltration de vos données</strong>. <strong>ACTION IMMÉDIATE :</strong> Si l'antivirus signale un problème, <strong>déconnectez immédiatement</strong> votre poste du réseau (retirez le câble Ethernet/coupez le WiFi) et alertez le support.</li>
+                    <li><strong>Clés USB Piégées (Baiting) et Physique :</strong> Ne connectez <strong>JAMAIS un équipement inconnu (clé USB)</strong> trouvé dans un lieu public (parking, salon). Ces supports sont des appâts (Baiting) souvent piégés. Verrouillez systématiquement votre poste (Win+L).</li>
                 </ol>
             </div>
             
@@ -158,14 +176,15 @@
         <hr>
 
         <section id="module-sensible">
-            <h2>💰 Module 2 : RH & Comptabilité (Fraude et Conséquences RGPD)</h2>
+            <h2>💰 Module 2 : RH & Comptabilité (Fraude, RGPD et Données Cloud)</h2>
             <p>Le risque pour votre service est la <strong>double extorsion</strong> : vol de fonds et vol de données personnelles (RH) entraînant des amendes RGPD maximales.</p>
             
             <div class="role-advice rh-advice">
-                <h3>Protocoles Anti-Fraude Bancaire et Sociale (Niveau Critique)</h3>
+                <h3>Protocoles Anti-Fraude Bancaire et IA (Niveau Critique)</h3>
                 <ul>
-                    <li><strong>Fraude au Président (CEO Fraud) / Virement :</strong> La menace est désormais le <strong>Deepfake vocal</strong>. <strong>La seule procédure fiable est la vérification hors bande</strong> : validation physique ou double validation par deux responsables (signature d'ordre de virement) sur une ligne sécurisée non sollicitée.</li>
-                    <li><strong>Ransomware et Exfiltration :</strong> Les attaquants volent d'abord les données RH. En cas de suspicion d'attaque, alertez immédiatement pour couper le réseau, car chaque minute de délai augmente le volume de données exfiltrées.</li>
+                    <li><strong>Fraude au Président (CEO Fraud) / Deepfakes :</strong> La menace est désormais le <strong>Deepfake vocal ou vidéo</strong> ultra-réaliste. <strong>La seule procédure fiable est la vérification hors bande</strong> : validation physique ou double validation par deux responsables (signature d'ordre de virement) sur une ligne sécurisée non sollicitée.</li>
+                    <li><strong>Gestion des Données Cloud :</strong> Ne stockez <strong>JAMAIS</strong> de données personnelles sensibles dans des services Cloud personnels (Google Drive, Dropbox) ou non autorisés. Utilisez uniquement les plateformes d'entreprise qui garantissent la sécurité et la conformité RGPD.</li>
+                    <li><strong>Risque de Biais de l'IA :</strong> Évitez d'utiliser des outils d'IA générative non approuvés pour des tâches critiques (recrutement, analyse financière), car ces outils peuvent introduire des biais non intentionnels basés sur leurs données d'entraînement.</li>
                     <li><strong>Gestion des Identifiants Privilégiés :</strong> Les comptes donnant accès aux systèmes de paie ou bancaires doivent avoir des mots de passe différents des autres comptes et utiliser impérativement un MFA matériel (clé FIDO, etc.).</li>
                 </ul>
             </div>
@@ -180,12 +199,19 @@
             <div class="role-advice tech-advice">
                 <h3>Architecture et Défenses Systèmes (Niveau Critique)</h3>
                 <ul>
-                    <li><strong>Approche Zero Trust (Confiance Zéro) :</strong> <strong>N'accordez jamais la confiance par défaut</strong>. Chaque utilisateur et chaque appareil, même au sein du réseau, doit être continuellement vérifié. Ceci est essentiel pour stopper les <strong>mouvements latéraux</strong> des attaquants. [attachment_3](attachment)</li>
+                    <li><strong>Approche Zero Trust (Confiance Zéro) :</strong> <strong>N'accordez jamais la confiance par défaut</strong>. Chaque utilisateur et chaque appareil, même au sein du réseau, doit être continuellement vérifié. Ceci est essentiel pour stopper les <strong>mouvements latéraux</strong> des attaquants.</li>
                     <li><strong>Ransomware et Immuabilité :</strong> La seule garantie de récupération est la sauvegarde <strong>immuable</strong> (WORM) ou une copie <strong>physiquement hors ligne</strong> (air-gapped). Testez régulièrement la restauration complète.</li>
-                    <li><strong>Défense de la Chaîne d'Approvisionnement (Supply Chain) :</strong> C'est le point d'entrée critique. Isolez les outils tiers (logiciels, fournisseurs) et appliquez un contrôle strict des privilèges qu'ils possèdent sur votre infrastructure. [attachment_4](attachment)</li>
+                    <li><strong>Défense de la Chaîne d'Approvisionnement (Supply Chain) :</strong> C'est le point d'entrée critique. Isolez les outils tiers (logiciels, fournisseurs) et appliquez un contrôle strict des privilèges qu'ils possèdent sur votre infrastructure.</li>
                     <li><strong>Hygiène des Correctifs :</strong> Mettez en place une politique d'application des correctifs <strong>automatisée</strong> et <strong>priorisée</strong> (Patch Management) sur les systèmes exposés (VPN, Firewalls) pour réduire la fenêtre d'exploitation des vulnérabilités.</li>
                 </ul>
             </div>
+        </section>
+
+        <section id="conclusion">
+            <h2>🛑 Conclusion : Votre Rôle est Déterminant</h2>
+            <p>Le succès de notre défense ne repose pas seulement sur la technologie, mais sur la <strong>vigilance individuelle</strong> de chacun.</p>
+            <p>Face à des menaces de plus en plus intelligentes (IA, Deepfakes), chaque <strong>réflexe de vérification</strong> (vérification de l'URL, double confirmation des virements, non-connexion d'une clé USB inconnue) est une ligne de défense cruciale.</p>
+            <p><strong>En cas de doute ou de détection d'une menace, l'action est simple : Isolez le poste du réseau et contactez immédiatement le support IT.</strong></p>
         </section>
 
     </main>
