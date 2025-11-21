@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sensibilisation à la Cybersécurité : Tous les Rôles et Bonnes Pratiques</title>
+    <title>Sensibilisation à la Cybersécurité : Risques Maximums</title>
     
     <style>
         body {
@@ -72,21 +72,13 @@
             background-color: #e3f2fd; /* Bleu léger pour Technique */
             border-left: 6px solid #03a9f4;
         }
-        #zoneAffichage {
-            min-height: 50px; 
-            background-color: #ffcdd2; 
-            padding: 10px; 
-            margin-top: 10px; 
-            border: 1px solid #c62828;
-        }
-        #resultatSQL, .csrf-token {
-            font-family: monospace;
-            background-color: #333;
-            color: #00ff00;
-            padding: 15px;
-            white-space: pre;
+        /* Styles spécifiques au module Mot de Passe */
+        .password-advice {
+            background-color: #fffae0;
+            border-left: 6px solid #f9a825;
+            padding: 20px;
+            margin-top: 20px;
             border-radius: 4px;
-            overflow-x: auto;
         }
         input[type="text"], input[type="password"] {
             padding: 10px;
@@ -123,22 +115,34 @@
 </head>
 <body>
     <header>
-        <h1>🎯 Sensibilisation à la Cybersécurité pour Tous les Rôles</h1>
-        <p>Comprendre les menaces et adopter les bons réflexes pour la sécurité collective.</p>
+        <h1>🎯 Sensibilisation à la Cybersécurité : Risques Maximums</h1>
+        <p>Identifier les menaces actuelles (Ransomware, IA) et appliquer des défenses robustes.</p>
     </header>
 
     <main>
 
         <section id="module-utilisateurs">
-            <h2>👤 Module 1 : Utilisateurs Standard (Sensibilisation aux Risques Quotidiens)</h2>
-            <p>Ce module concerne la <strong>sécurité humaine</strong>. Vous êtes la première ligne de défense contre l'ingénierie sociale et les menaces exploitant l'intelligence artificielle (IA) malveillante.</p>
+            <h2>👤 Module 1 : Utilisateurs Standard (Sécurité Maximale des Accès et Hameçonnage)</h2>
+            <p>La <strong>sécurité humaine</strong> est votre responsabilité principale. Une erreur peut conduire à une <strong>compromission complète</strong> de l'entreprise.</p>
             
+            <div class="password-advice">
+                <h3>🔑 Mots de Passe : Hachage, Force et Authentification</h3>
+                <p>Un mot de passe faible est une porte ouverte. Adoptez ces pratiques obligatoires :</p>
+                <ul>
+                    <li><strong>Comprendre le Hachage :</strong> Le <strong>hachage</strong> est un processus qui rend votre mot de passe illisible et irréversible pour le serveur. Même si la base de données est volée, les attaquants ne trouvent que des 'empreintes' (hashs) et non le mot de passe en clair.</li>
+                    <li><strong>La Longueur est la Clé :</strong> Visez des phrases de passe longues (14 caractères minimum) plutôt que des mots complexes mais courts. <strong>Exemple : <code>Ch@uv€-s0ur1s-B1eu€-18!</code></strong></li>
+                    <li><strong>Unicité Totale :</strong> N'utilisez <strong>JAMAIS</strong> le même mot de passe. Cela prévient le "Credential Stuffing" (utilisation d'identifiants volés sur d'autres services).</li>
+                    <li><strong>Double Authentification (2FA/MFA) :</strong> Activez-la partout. Privilégiez l'<strong>authentification sans mot de passe</strong> (Passkeys) ou l'utilisation d'applications d'authentification (TotP) qui sont plus sûres que les SMS. [attachment_0](attachment)</li>
+                </ul>
+            </div>
+
             <div class="role-advice">
-                <h3>3 Réflexes de Cyber-Défense Contre les Menaces Modernes</h3>
+                <h3>3 Réflexes de Cyber-Défense Contre les Menaces d'Ingénierie Sociale</h3>
                 <ol>
-                    <li><strong>Phishing (Hameçonnage) Avancé :</strong> Méfiez-vous du <strong>Spear Phishing</strong> (ciblé) et des tentatives de <strong>Vishing</strong> (arnaque vocale). Si un collègue demande de l'aide par SMS ou WhatsApp pour un problème urgent de connexion, <strong>vérifiez toujours son identité par un appel vocal connu</strong>. </li>
-                    <li><strong>Mots de Passe et 2FA :</strong> Utilisez un <strong>gestionnaire de mots de passe</strong> et activez la <strong>Double Authentification (2FA)</strong> partout. Idéalement, utilisez des méthodes d'authentification sans mot de passe (Passkeys) ou basées sur des applications (ex: Google Authenticator) plutôt que par SMS.</li>
-                    <li><strong>Sécurité du Poste :</strong> Verrouillez votre session (Win+L ou Cmd+Ctrl+Q). Ne téléchargez jamais de logiciel ou de document provenant de sites non officiels. Les **malwares** se cachent souvent dans des pièces jointes ou des programmes d'apparence légitime.</li>
+                    <li><strong>Phishing, Quishing et MFA Phishing :</strong> Méfiez-vous des e-mails sophistiqués (IA Générative) et des **faux codes QR (Quishing)**. De plus, ne donnez <strong>JAMAIS</strong> votre code de Double Authentification (OTP) sur un site non vérifié. Les attaquants utilisent le **MFA Phishing** pour vous le soutirer. <strong>Vérifiez TOUJOURS l'URL</strong>.</li>
+                    <li><strong>Détournement de Session (Session Hijacking) :</strong> La 2FA ne vous protège pas contre le vol de votre session active (cookie). Si vous vous connectez à un site malveillant, il peut voler votre session. <strong>Déconnectez-vous toujours</strong> des applications sensibles lorsque vous ne les utilisez pas.</li>
+                    <li><strong>Malware (Ransomware, Spyware) :</strong> Le <strong>Ransomware</strong> (rançongiciel) est l'attaque la plus destructrice. Si l'antivirus signale un problème, <strong>déconnectez immédiatement</strong> votre poste du réseau et alertez le support. [attachment_1](attachment)</li>
+                    <li><strong>Clés USB Piégées (Baiting) :</strong> Ne connectez <strong>JAMAIS un équipement inconnu (clé USB)</strong> trouvé dans un lieu public (parking, salon). Ces supports sont des appâts (Baiting) souvent piégés pour injecter des malwares.</li>
                 </ol>
             </div>
             
@@ -154,15 +158,15 @@
         <hr>
 
         <section id="module-sensible">
-            <h2>💰 Module 2 : RH & Comptabilité (Fraude et Confidentialité)</h2>
-            <p>En manipulant les données financières et personnelles, vous êtes la cible principale des attaques d'<strong>usurpation d'identité par Deepfake</strong> et de la <strong>fraude au virement</strong>.</p>
+            <h2>💰 Module 2 : RH & Comptabilité (Fraude et Conséquences RGPD)</h2>
+            <p>Le risque pour votre service est la <strong>double extorsion</strong> : vol de fonds et vol de données personnelles (RH) entraînant des amendes RGPD maximales.</p>
             
             <div class="role-advice rh-advice">
-                <h3>Protocoles Anti-Fraude Bancaire et Sociale</h3>
+                <h3>Protocoles Anti-Fraude Bancaire et Sociale (Niveau Critique)</h3>
                 <ul>
-                    <li><strong>Fraude au Président (CEO Fraud) / Virement :</strong> La menace principale. Pour toute demande de virement ou de changement d'IBAN, <strong>mettez en place une vérification hors bande obligatoire :</strong> deux niveaux de validation ou un appel sur une ligne sécurisée. L'e-mail ou même un appel vidéo (Deepfake) ne suffisent plus.</li>
-                    <li><strong>Ransomware et Chantage aux Données (RH) :</strong> Les attaques ciblent les serveurs de fichiers RH. L'exfiltration de données personnelles entraîne des amendes RGPD. <strong>Chiffrez toujours les documents sensibles</strong> et utilisez des espaces de stockage sécurisés (VPN/SFTP).</li>
-                    <li><strong>Usurpation d'Identité via IA :</strong> Si vous recevez un message vocal ou vidéo urgent du PDG, ne donnez pas suite sans une vérification visuelle ou un mot de passe de confirmation connu. Les Deepfakes vocaux sont de plus en plus réalistes.</li>
+                    <li><strong>Fraude au Président (CEO Fraud) / Virement :</strong> La menace est désormais le <strong>Deepfake vocal</strong>. <strong>La seule procédure fiable est la vérification hors bande</strong> : validation physique ou double validation par deux responsables (signature d'ordre de virement) sur une ligne sécurisée non sollicitée.</li>
+                    <li><strong>Ransomware et Exfiltration :</strong> Les attaquants volent d'abord les données RH. En cas de suspicion d'attaque, alertez immédiatement pour couper le réseau, car chaque minute de délai augmente le volume de données exfiltrées.</li>
+                    <li><strong>Gestion des Identifiants Privilégiés :</strong> Les comptes donnant accès aux systèmes de paie ou bancaires doivent avoir des mots de passe différents des autres comptes et utiliser impérativement un MFA matériel (clé FIDO, etc.).</li>
                 </ul>
             </div>
         </section>
@@ -170,137 +174,18 @@
         <hr>
 
         <section id="module-technique">
-            <h2>⚙️ Module 3 : Techniciens IT / Réseaux (Défense de l'Infrastructure)</h2>
-            <p>La <strong>résilience</strong> face aux **ransomwares par double extorsion** et les **attaques de la chaîne d'approvisionnement** est votre priorité.</p>
+            <h2>⚙️ Module 3 : Techniciens IT / Réseaux (Défense de l'Infrastructure et Résilience)</h2>
+            <p>La <strong>continuité d'activité</strong> dépend de la robustesse de votre architecture face aux <strong>attaques zero-day</strong> et à la <strong>compromission de la chaîne d'approvisionnement</strong>.</p>
             
             <div class="role-advice tech-advice">
-                <h3>Exemples d'Architecture Sûre (Checklist)</h3>
+                <h3>Architecture et Défenses Systèmes (Niveau Critique)</h3>
                 <ul>
-                    <li><strong>Réponse aux Ransomwares :</strong> Le point critique est la récupération. Mettez en place des sauvegardes **Immuables** (WORM - Write Once Read Many) ou **Hors Ligne** pour garantir que les sauvegardes ne peuvent pas être chiffrées par les attaquants.</li>
-                    <li><strong>Défense de la Chaîne d'Approvisionnement :</strong> Contrôlez et segmentez l'accès des fournisseurs et des logiciels tiers. Isolez les systèmes de développement des systèmes de production. Utilisez l'approche **Zero Trust** même avec les partenaires de confiance. </li>
-                    <li><strong>Gestion des Correctifs (Patch Management) :</strong> Priorisez l'application immédiate des correctifs critiques sur les systèmes exposés sur Internet (VPN, serveurs de messagerie) pour prévenir les intrusions initiales (initial access).</li>
-                    <li><strong>Journalisation et Surveillance :</strong> Centralisez tous les journaux dans un outil **SIEM/SOC** pour l'analyse en temps réel et la détection d'activités anormales (exfiltration de données, mouvements latéraux).</li>
+                    <li><strong>Approche Zero Trust (Confiance Zéro) :</strong> <strong>N'accordez jamais la confiance par défaut</strong>. Chaque utilisateur et chaque appareil, même au sein du réseau, doit être continuellement vérifié. Ceci est essentiel pour stopper les <strong>mouvements latéraux</strong> des attaquants. [attachment_2](attachment)</li>
+                    <li><strong>Ransomware et Immuabilité :</strong> La seule garantie de récupération est la sauvegarde <strong>immuable</strong> (WORM) ou une copie <strong>physiquement hors ligne</strong> (air-gapped). Testez régulièrement la restauration complète.</li>
+                    <li><strong>Défense de la Chaîne d'Approvisionnement (Supply Chain) :</strong> C'est le point d'entrée critique. Isolez les outils tiers (logiciels, fournisseurs) et appliquez un contrôle strict des privilèges qu'ils possèdent sur votre infrastructure. [attachment_3](attachment)</li>
+                    <li><strong>Hygiène des Correctifs :</strong> Mettez en place une politique d'application des correctifs <strong>automatisée</strong> et <strong>priorisée</strong> (Patch Management) sur les systèmes exposés (VPN, Firewalls) pour réduire la fenêtre d'exploitation des vulnérabilités.</li>
                 </ul>
             </div>
-        </section>
-        
-        <hr>
-
-        <section id="module-developpeurs">
-            <h2>💻 Module 4 : Développeurs (Démonstrations de Vulnérabilités)</h2>
-            <p>Comprendre le fonctionnement d'une faille au niveau du code est la première étape pour l'éliminer à la source.</p>
-            
-            <section id="demonstration-xss">
-                <h3>🧪 4.1. Injection XSS (Cross-Site Scripting)</h3>
-                <p>Permet à un attaquant d'exécuter du code JavaScript malveillant dans le navigateur d'un autre utilisateur. Danger : vol de cookies de session.</p>
-                <div class="attaque-demonstration">
-                    <h4>Exemple d'Injection XSS (VULNÉRABLE)</h4>
-                    <label for="commentaire">Entrez un code HTML :</label>
-                    <input type="text" id="commentaire" placeholder="Testez : <img src=x onerror=alert('XSS_Réussi!')>">
-                    <button onclick="afficherCommentaireVulnerable()">1. Publier (VULNÉRABLE)</button>
-                    <div id="zoneAffichage"><em>Contenu non sécurisé.</em></div>
-                    <button onclick="afficherCommentaireSecurise()">2. Voir la Solution Sûre</button>
-                </div>
-                <div class="defense">
-                    <h4>✅ La Défense contre le XSS</h4>
-                    <ul>
-                        <li><strong>Encodage des Sorties :</strong> Toujours encoder l'entrée utilisateur lors de l'affichage. Préférez <code>element.textContent</code> à <code>element.innerHTML</code>.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section id="demonstration-hashing">
-                <h3>🔑 4.2. Hachage et Salage (Sécurité des Mots de Passe)</h3>
-                <p>Les mots de passe ne doivent pas être récupérables, d'où la nécessité de les hacher (fonction unidirectionnelle) et de les saler.</p>
-                <div class="attaque-demonstration">
-                    <h4>Démonstration de Hachage Pédagogique</h4>
-                    <label for="mdpClair">Mot de passe en clair :</label>
-                    <input type="text" id="mdpClair" placeholder="Entrez un mot de passe">
-                    <button onclick="hacherMotDePasse()">Hacher et Saler (Simulé)</button>
-                    <p><strong>Résultat du Hachage (Empreinte) :</strong> <span id="resultatHachage">---</span></p>
-                </div>
-                <div class="defense">
-                    <h4>✅ La Bonne Pratique pour le Stockage</h4>
-                    <ul>
-                        <li><strong>Algorithmes Lents :</strong> Utilisez <strong>Bcrypt</strong> ou <strong>Argon2</strong> pour ralentir les attaques par dictionnaire et force brute sur le hash. </li>
-                        <li><strong>Sel (Salt) Unique :</strong> Un sel unique par mot de passe pour contrer les tables arc-en-ciel.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section id="demonstration-bruteforce">
-                <h3>🔨 4.3. Attaque par Force Brute et Défense</h3>
-                <p>Tente d'exploiter les combinaisons de mots de passe et noms d'utilisateur à un rythme très rapide sur un point d'authentification.</p>
-                <div class="attaque-demonstration">
-                    <h4>Exemple d'Attaque par Force Brute</h4>
-                    <label for="mdpAttaque">Mot de passe à tester (Exemple : <code>123456</code>):</label>
-                    <input type="password" id="mdpAttaque" placeholder="Entrez la cible">
-                    <button onclick="tenterConnexion()">Tenter la Connexion</button>
-                    <p>Tentatives restantes : <span id="tentativesRestantes">5</span></p>
-                    <p id="resultatBruteForce" style="color: #c62828;">---</p>
-                </div>
-                <div class="defense">
-                    <h4>✅ La Défense contre la Force Brute</h4>
-                    <ul>
-                        <li><strong>Limitation de Taux (Rate Limiting) :</strong> Bloquez l'utilisateur ou l'IP après un petit nombre d'échecs (ex: 5).</li>
-                        <li><strong>CAPTCHA :</strong> Utiliser des CAPTCHA après les premiers échecs.</li>
-                    </ul>
-                </div>
-            </section>
-            
-            <section id="demonstration-csrf">
-                <h3>🛡️ 4.6. Faille CSRF (Cross-Site Request Forgery)</h3>
-                <p>Exploite le fait que le navigateur envoie automatiquement le cookie de session lors d'une requête vers un site où l'utilisateur est déjà connecté.</p>
-                <div class="attaque-demonstration">
-                    <h4>Exemple d'Attaque CSRF (Usurpation de Requête)</h4>
-                    <p>Requête Critique VULNÉRABLE :</p>
-                    <div class="csrf-token">
-                        GET https://MonCompte.com/transfert?dest=Attaquant&montant=1000
-                    </div>
-                    <button onclick="simulerAttaqueCSRF()">Simuler l'ouverture d'un site malveillant</button>
-                    <p id="resultatCSRF" style="margin-top: 15px;">---</p>
-                </div>
-                <div class="defense">
-                    <h4>✅ La Défense contre le CSRF</h4>
-                    <ul>
-                        <li><strong>Tokens Anti-CSRF :</strong> Un jeton secret doit être inclus dans tous les formulaires critiques. </li>
-                        <li><strong>Header SameSite :</strong> Configurez les cookies de session avec <code>SameSite=Strict</code>.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section id="demonstration-sqli">
-                <h3>💥 4.4. Injection SQL (SQLi)</h3>
-                <p>Vulnérabilité côté serveur qui permet l'exécution de commandes SQL arbitraires, menant au vol ou à la destruction des données de la base de données.</p>
-                <div class="attaque-demonstration">
-                    <h4>Exemple d'Injection SQL (VULNÉRABLE)</h4>
-                    <label for="utilisateurSQL">Nom d'utilisateur :</label>
-                    <input type="text" id="utilisateurSQL" placeholder="Tentez : ' OR '1'='1">
-                    <button onclick="tenterConnexionSQL()">Simuler Connexion</button>
-                    <h4>Requête SQL Exécutée (Simulée) :</h4>
-                    <div id="resultatSQL"></div>
-                </div>
-                <div class="defense">
-                    <h4>✅ La Défense contre la SQLi</h4>
-                    <ul>
-                        <li><strong>Requêtes Préparées (Prepared Statements) :</strong> Solution obligatoire pour garantir que les entrées sont toujours des données.</li>
-                        <li><strong>Principe du Moindre Privilège :</strong> Limiter les droits des comptes de base de données utilisés par l'application.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section id="https-tls">
-                <h3>🔒 4.5. Protocole HTTPS et TLS</h3>
-                <p>Le chiffrement est essentiel pour garantir la confidentialité et l'intégrité des communications entre le client et le serveur (défense contre l'attaque de type Man-in-the-Middle).</p>
-                <div class="defense">
-                    <h4>✅ Bonnes Pratiques HTTPS et TLS</h4>
-                    <ul>
-                        <li><strong>Utilisation Universelle :</strong> Forcer tout le trafic à passer par <strong>HTTPS</strong>.</li>
-                        <li><strong>HSTS :</strong> Utiliser l'entête HTTP Strict Transport Security pour éviter le retour au HTTP non chiffré.</li>
-                        <li><strong>Versions du Protocole :</strong> N'utiliser que <strong>TLS 1.2</strong> ou <strong>1.3</strong>. </li>
-                    </ul>
-                </div>
-            </section>
         </section>
 
     </main>
@@ -312,111 +197,17 @@
     <script>
         
         // ===================================================
-        // JS : UTILISATEURS STANDARD (Module 1)
+        // JS : UTILISATEURS STANDARD (Module 1 - Phishing)
         // ===================================================
         function repondrePhishing(clic) {
             const resultat = document.getElementById('resultatPhishing');
             if (clic) {
                 resultat.innerHTML = '❌ <strong>FAUX !</strong> Une demande urgente et une faute dans l\'adresse sont des signes d\'alarme majeurs. Vous venez d\'être hameçonné.';
-                resultat.style.color = '#c62828';
+                result (resultat.style.color = '#c62828';)
             } else {
                 resultat.innerHTML = '✅ <strong>BONNE RÉPONSE !</strong> L\'e-mail est frauduleux (faute de frappe dans le domaine).';
-                resultat.style.color = '#4caf50';
+                result (resultat.style.color = '#4caf50';)
             }
-        }
-
-        // ===================================================
-        // JS : DÉVELOPPEURS (Module 4)
-        // ===================================================
-        
-        // DÉMO 4.1 : XSS
-        function afficherCommentaireVulnerable() {
-            const input = document.getElementById('commentaire').value;
-            const zoneAffichage = document.getElementById('zoneAffichage');
-            zoneAffichage.innerHTML = '<p style="color:red;">Commentaire VULNÉRABLE :</p>' + input; 
-            if (input.includes('alert(')) {
-                alert("Code XSS Exécuté ! Danger d'utiliser innerHTML.");
-            }
-        }
-        function afficherCommentaireSecurise() {
-            const input = document.getElementById('commentaire').value;
-            const zoneAffichage = document.getElementById('zoneAffichage');
-            zoneAffichage.textContent = 'Commentaire SÉCURISÉ : ' + input;
-            alert("Code malveillant traité comme du texte.");
-        }
-
-        // DÉMO 4.2 : Hachage
-        function hacherMotDePasse() {
-            const mdp = document.getElementById('mdpClair').value;
-            const resultatHachage = document.getElementById('resultatHachage');
-            
-            if (mdp.length === 0) {
-                resultatHachage.textContent = 'Entrez un mot de passe à hacher.';
-                return;
-            }
-            
-            const salt = Math.random().toString(36).substring(2, 7);
-            const encoded = btoa(mdp + salt); 
-            const hashSimule = '$BCRYPT$' + salt + '$' + encoded.slice(0, 40).toUpperCase();
-            
-            resultatHachage.textContent = hashSimule;
-        }
-
-        // DÉMO 4.3 : Force Brute
-        let tentativesRestantes = 5;
-        const mdpCible = '123456'; 
-        const elementTentatives = document.getElementById('tentativesRestantes');
-        const elementResultat = document.getElementById('resultatBruteForce');
-
-        function tenterConnexion() {
-            const mdpEntre = document.getElementById('mdpAttaque').value;
-
-            if (tentativesRestantes <= 0) {
-                elementResultat.innerHTML = '⛔ <strong>COMPTE BLOQUÉ !</strong> Défense par Limitation de Taux activée.';
-                return;
-            }
-
-            if (mdpEntre === mdpCible) {
-                elementResultat.innerHTML = '✅ <strong>SUCCÈS !</strong> Mot de passe trouvé : ' + mdpCible + '.';
-                tentativesRestantes = 5; 
-                elementTentatives.textContent = 5;
-            } else {
-                tentativesRestantes--;
-                elementTentatives.textContent = tentativesRestantes;
-                
-                if (tentativesRestantes > 0) {
-                    elementResultat.textContent = '❌ Échec de la connexion. Il vous reste ' + tentativesRestantes + ' tentatives.';
-                } else {
-                    elementResultat.innerHTML = '⛔ <strong>COMPTE BLOQUÉ !</strong> Le Rate Limiting a stoppé l\'attaque.';
-                }
-            }
-        }
-
-        // DÉMO 4.4 : SQLi
-        function tenterConnexionSQL() {
-            const userInput = document.getElementById('utilisateurSQL').value;
-            const resultatSQL = document.getElementById('resultatSQL');
-            const requeteVulnerable = "SELECT * FROM utilisateurs WHERE nom='" + userInput + "' AND mot_de_passe='quelconque';";
-            
-            resultatSQL.textContent = requeteVulnerable;
-
-            if (userInput.includes("' OR '1'='1")) {
-                resultatSQL.textContent += "\n\n--> RESULTAT DU SERVEUR :\nConnexion réussie ! (Utilisateur ADMIN)\n\nEXPLICATION : L'ajout de ' OR '1'='1 a rendu la condition logique toujours VRAIE.";
-                resultatSQL.style.backgroundColor = '#cc0000';
-                resultatSQL.style.color = 'white';
-            } else {
-                resultatSQL.style.backgroundColor = '#333';
-                resultatSQL.style.color = '#00ff00';
-                resultatSQL.textContent += "\n\n--> RESULTAT DU SERVEUR :\nÉchec de la connexion (Nom d'utilisateur non trouvé).";
-            }
-        }
-
-        // DÉMO 4.6 : CSRF
-        function simulerAttaqueCSRF() {
-            const resultatCSRF = document.getElementById('resultatCSRF');
-            
-            resultatCSRF.innerHTML = '🔴 <strong>SIMULATION RÉUSSIE</strong> : Le navigateur a tenté de charger l\'attaque.<br>Puisque votre cookie de session était présent, le serveur VULNÉRABLE aurait exécuté l\'action.';
-            resultatCSRF.style.color = '#c62828';
         }
     </script>
 </body>
