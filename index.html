@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSec Helper App 🛡️</title>
+    <!-- Chargement de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuration Tailwind pour utiliser la police Inter (recommandée) et les classes responsives -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Gris clair */
+        }
+        .sidebar {
+            /* Fixe la barre latérale pour le mobile ou le grand écran */
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(-100%);
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        /* Style pour les boutons de navigation actifs */
+        .nav-active {
+            background-color: #2563eb !important; /* Bleu intense */
+            color: white !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+        .nav-item:hover:not(.nav-active) {
+             background-color: #e0f2f1; /* Gris clair */
+        }
+        @media (min-width: 1024px) {
+            .sidebar {
+                transform: translateX(0); /* Visible sur desktop */
+            }
+            .content-area {
+                margin-left: 18rem; /* Décalage pour la barre latérale fixe */
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Bouton de menu pour mobile -->
+    <button id="menu-btn" class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-600 text-white rounded-md shadow-lg transition duration-300 hover:bg-blue-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+    </button>
+
+    <!-- Barre Latérale (Sidebar) -->
+    <aside id="sidebar" class="sidebar fixed inset-y-0 left-0 z-40 w-72 bg-white p-6 shadow-2xl lg:shadow-xl lg:w-72 lg:flex flex-col">
+        <h1 class="text-3xl font-extrabold text-blue-800 mb-8 mt-4 lg:mt-0">
+            <span class="text-gray-600">🛡️</span> CyberSec Helper
+        </h1>
+
+        <!-- Menu de Navigation -->
+        <nav class="space-y-2 flex-grow">
+            <button class="nav-item w-full text-left p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-teal-500/50" onclick="showPage('password-gen')">
+                🔑 Générateur de Mot de Passe
+            </button>
+            <button class="nav-item w-full text-left p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200" onclick="showPage('password-strength')">
+                💪 Vérificateur de Force
+            </button>
+            <button class="nav-item w-full text-left p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200" onclick="showPage('hash-calc')">
+                🧮 Calculateur de Hachage
+            </button>
+            <button class="nav-item w-full text-left p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200" onclick="showPage('network-analysis')">
+                🌐 Analyseur d'Hôte
+            </button>
+            <button class="nav-item w-full text-left p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200" onclick="showPage('xor-cipher')">
+                ⚔️ Chiffrement XOR
+            </button>
+            <button class="nav-item w-full text-left p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200" onclick="showPage('text-analysis')">
+                🔍 Analyseur de Texte
+            </button>
+            <button class="nav-item w-full text-left p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200" onclick="showPage('base64-codec')">
+                🔄 Encodeur/Décodeur Base64
+            </button>
+        </nav>
+    </aside>
+    
+    <!-- Zone de Contenu Principale -->
+    <main id="content" class="content-area p-4 sm:p-8 lg:p-12 transition-all duration-300">
+        <div id="page-content" class="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-xl min-h-screen">
+            <!-- Le contenu de la page sera injecté ici par JavaScript -->
+            <div class="text-center p-10 text-gray-500">
+                <h2 class="text-3xl font-bold mb-4">Bienvenue !</h2>
+                <p>Sélectionnez un outil de cybersécurité dans le menu latéral pour commencer.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Définition des constantes de sécurité
+        const CHARS_LOWER = 'abcdefghijklmnopqrstuvwxyz';
+        const CHARS_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const CHARS_DIGITS = '0123456789';
+        const CHARS_SYMBOLS = '!@#$%^&*()_+~`|}{[]\:;?><,./-=';
+
+        // Variables globales pour l'état de l'application
+        let currentPage = 'password-gen';
+        const pageContentEl = document.getElementById('page-content');
+        const sidebarEl = document.getElementById('sidebar');
+        const menuBtn = document.getElementById('menu-btn');
+        const navItems = document.querySelectorAll('.nav-item');
+
+
+        // --- Gestion de la Navigation ---
+
+        // Événement pour le bouton de menu mobile
+        menuBtn.addEventListener('click', () => {
+            sidebarEl.classList.toggle('open');
+        });
+
+        // Fonction pour sélectionner l'outil actif
+        function setActiveNav(pageId) {
+            navItems.forEach(btn => {
+                const targetPage = btn.getAttribute('onclick').match(/'(.*)'/)[1];
+                btn.classList.remove('nav-active');
+                if (targetPage === pageId) {
+                    btn.classList.add('nav-active');
+                }
+            });
+             // Fermer la sidebar après la sélection sur mobile
+            if (window.innerWidth < 1024) {
+                 sidebarEl.classList.remove('open');
+            }
+        }
+
+        /**
+         * Affiche le contenu de la page sélectionnée.
+         * @param {string} pageId L'identifiant de la page à afficher.
+         */
+        function showPage(pageId) {
+            currentPage = pageId;
+            setActiveNav(pageId);
+            pageContentEl.innerHTML = renderPage(pageId);
+            // Appeler les initialisations spécifiques si nécessaire (ex: ajouter des écouteurs d'événements)
+            attachEventListeners(pageId);
+        }
+
+        /**
+         * Fonction pour générer le HTML de chaque page d'outil.
+         * @param {string} pageId L'identifiant de la page.
+         * @returns {string} Le HTML de la page.
+         */
+        function renderPage(pageId) {
+            switch (pageId) {
+                case 'password-gen':
+                    return `
+                        <h2 class="text-3xl font-bold text-blue-700 mb-6">🔑 Générateur de Mot de Passe Sécurisé</h2>
+                        <p class="text-gray-600 mb-8">Créez un mot de passe aléatoire et fort. Une longueur élevée est la meilleure défense !</p>
+                        
+                        <div class="space-y-6">
+                            <label class="block text-lg font-medium text-gray-700">Longueur du mot de passe : <span id="length-display" class="font-bold text-blue-600">16</span></label>
+                            <input type="range" id="password-length" min="8" max="64" value="16" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            
+                            <div class="grid sm:grid-cols-2 gap-4 mt-6 p-4 border rounded-xl bg-gray-50">
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" id="include-uppercase" checked class="h-5 w-5 text-blue-600 rounded">
+                                    <span class="text-gray-700">Inclure MAJUSCULES (A-Z)</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" id="include-digits" checked class="h-5 w-5 text-blue-600 rounded">
+                                    <span class="text-gray-700">Inclure Chiffres (0-9)</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" id="include-symbols" checked class="h-5 w-5 text-blue-600 rounded">
+                                    <span class="text-gray-700">Inclure Symboles (!@#$)</span>
+                                </label>
+                            </div>
+                            
+                            <button id="generate-btn" class="w-full py-3 bg-teal-600 text-white font-semibold rounded-xl shadow-md hover:bg-teal-700 transition duration-300 mt-6">
+                                Générer un Mot de Passe
+                            </button>
+                            
+                            <div id="generation-result" class="mt-8"></div>
+                        </div>
+                    `;
+
+                case 'password-strength':
+                    return `
+                        <h2 class="text-3xl font-bold text-blue-700 mb-6">💪 Vérificateur de Force de Mot de Passe</h2>
+                        <p class="text-gray-600 mb-8">Évaluez la robustesse de votre mot de passe et obtenez des conseils d'amélioration.</p>
+
+                        <div class="space-y-6">
+                            <label for="password-input" class="block text-lg font-medium text-gray-700">Entrez le mot de passe :</label>
+                            <input type="password" id="strength-password-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Tapez votre mot de passe ici">
+                            
+                            <div id="strength-result" class="mt-6 p-5 border rounded-xl bg-gray-50">
+                                <div class="text-xl font-semibold text-gray-500 mb-4">Force Estimée : <span id="strength-score-display" class="text-gray-400">N/A</span></div>
+                                <div id="strength-progress-container" class="mb-4">
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div id="strength-progress-bar" class="bg-gray-400 h-2.5 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div id="strength-feedback" class="space-y-2"></div>
+                            </div>
+                        </div>
+                    `;
+
+                case 'hash-calc':
+                    return `
+                        <h2 class="text-3xl font-bold text-blue-700 mb-6">🧮 Calculateur de Hachage (Hash)</h2>
+                        <p class="text-gray-600 mb-8">Générez des empreintes numériques (checksum) pour vérifier l'intégrité des données.</p>
+                        
+                        <div class="space-y-6">
+                            <label for="hash-algo" class="block text-lg font-medium text-gray-700">Sélectionnez l'algorithme :</label>
+                            <select id="hash-algo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                                <option value="SHA-256">SHA-256 (Standard)</option>
+                                <option value="SHA-512">SHA-512</option>
+                            </select>
+                            
+                            <label for="hash-input" class="block text-lg font-medium text-gray-700">Entrez le texte à hacher :</label>
+                            <textarea id="hash-input" rows="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Tapez votre texte ici..."></textarea>
+                            
+                            <button id="calculate-hash-btn" class="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl shadow-md hover:bg-blue-700 transition duration-300">
+                                Calculer le Hachage
+                            </button>
+                            
+                            <div id="hash-result" class="mt-8"></div>
+                        </div>
+                    `;
+                
+                case 'network-analysis':
+                    return `
+                        <h2 class="text-3xl font-bold text-blue-700 mb-6">🌐 Analyseur d'Hôte et de Domaine</h2>
+                        <p class="text-gray-600 mb-8">Validez le format d'une URL, d'un domaine ou d'une adresse IP. (Note: La résolution DNS n'est pas possible directement depuis le navigateur.)</p>
+                        
+                        <div class="space-y-6">
+                            <label for="network-input" class="block text-lg font-medium text-gray-700">Entrez une URL, un domaine ou une IP :</label>
+                            <input type="text" id="network-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Ex: https://example.com ou 8.8.8.8">
+                            
+                            <button id="analyze-network-btn" class="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl shadow-md hover:bg-blue-700 transition duration-300">
+                                Analyser l'Hôte
+                            </button>
+                            
+                            <div id="network-result" class="mt-8"></div>
+                        </div>
+                    `;
+
+                case 'xor-cipher':
+                    return `
+                        <h2 class="text-3xl font-bold text-blue-700 mb-6">⚔️ Outil de Chiffrement/Déchiffrement XOR</h2>
+                        <p class="text-gray-600 mb-8">Effectuez des opérations XOR avec une clé. Utile en analyse CTF ou pour des encodages basiques. (Très faible pour la sécurité réelle!)</p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex space-x-4">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="xor-mode" value="encrypt" checked id="xor-encrypt-radio" class="h-4 w-4 text-blue-600">
+                                    <span>Chiffrer</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="xor-mode" value="decrypt" id="xor-decrypt-radio" class="h-4 w-4 text-blue-600">
+                                    <span>Déchiffrer</span>
+                                </label>
+                            </div>
+
+                            <label for="xor-input" class="block text-lg font-medium text-gray-700" id="xor-input-label">Texte à chiffrer (L'output sera en Base64) :</label>
+                            <textarea id="xor-input" rows="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Entrez le texte ici..."></textarea>
+                            
+                            <label for="xor-key" class="block text-lg font-medium text-gray-700">Clé Secrète (XOR Key) :</label>
+                            <input type="password" id="xor-key" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Entrez votre clé secrète">
+                            
+                            <button id="perform-xor-btn" class="w-full py-3 bg-red-600 text-white font-semibold rounded-xl shadow-md hover:bg-red-700 transition duration-300">
+                                Chiffrer le Texte
+                            </button>
+                            
+                            <div id="xor-result" class="mt-8"></div>
+                        </div>
+                    `;
+                
+                case 'text-analysis':
+                    return `
+                        <h2 class="text-3xl font-bold text-blue-700 mb-6">🔍 Analyseur de Texte/Fichier</h2>
+                        <p class="text-gray-600 mb-8">Analyse rapide d'un contenu de fichier pour la taille, la fréquence de mots et le hachage d'intégrité.</p>
+                        
+                        <div class="space-y-6">
+                            <label for="analysis-input" class="block text-lg font-medium text-gray-700">Collez le contenu à analyser ici :</label>
+                            <textarea id="analysis-input" rows="10" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Contenu du fichier, log, ou email suspect..."></textarea>
+                            
+                            <label for="analysis-hash-algo" class="block text-lg font-medium text-gray-700">Algorithme de Hachage pour l'Intégrité :</label>
+                            <select id="analysis-hash-algo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                                <option value="SHA-256">SHA-256</option>
+                                <option value="SHA-512">SHA-512</option>
+                            </select>
+
+                            <button id="analyze-text-btn" class="w-full py-3 bg-green-600 text-white font-semibold rounded-xl shadow-md hover:bg-green-700 transition duration-300">
+                                Analyser le Contenu
+                            </button>
+                            
+                            <div id="analysis-result" class="mt-8"></div>
+                        </div>
+                    `;
+                
+                case 'base64-codec':
+                    return `
+                        <h2 class="text-3xl font-bold text-blue-700 mb-6">🔄 Encodeur/Décodeur Base64</h2>
+                        <p class="text-gray-600 mb-8">Encodez ou décodez des données en Base64. C'est un **encodage**, pas un chiffrement.</p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex space-x-4">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="base64-mode" value="encode" checked id="base64-encode-radio" class="h-4 w-4 text-blue-600">
+                                    <span>Encoder (Texte vers Base64)</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="base64-mode" value="decode" id="base64-decode-radio" class="h-4 w-4 text-blue-600">
+                                    <span>Décoder (Base64 vers Texte)</span>
+                                </label>
+                            </div>
+
+                            <label for="base64-input" class="block text-lg font-medium text-gray-700" id="base64-input-label">Entrez le texte à encoder ici :</label>
+                            <textarea id="base64-input" rows="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Entrez le contenu ici..."></textarea>
+                            
+                            <button id="perform-base64-btn" class="w-full py-3 bg-yellow-600 text-white font-semibold rounded-xl shadow-md hover:bg-yellow-700 transition duration-300">
+                                Encoder
+                            </button>
+                            
+                            <div id="base64-result" class="mt-8"></div>
+                        </div>
+                    `;
+
+                default:
+                    return `<div class="text-center p-10 text-gray-500"><h2 class="text-3xl font-bold mb-4">Erreur</h2><p>Page non trouvée.</p></div>`;
+            }
+        }
+
+        // --- Fonctions d'Événements et de Logique ---
+
+        /**
+         * Attache les écouteurs d'événements pour la page active.
+         * @param {string} pageId 
+         */
+        function attachEventListeners(pageId) {
+            switch (pageId) {
+                case 'password-gen':
+                    document.getElementById('password-length').addEventListener('input', updatePasswordLengthDisplay);
+                    document.getElementById('generate-btn').addEventListener('click', generatePassword);
+                    break;
+                case 'password-strength':
+                    document.getElementById('strength-password-input').addEventListener('input', checkPasswordStrength);
+                    checkPasswordStrength(); // Check initial state
+                    break;
+                case 'hash-calc':
+                    document.getElementById('calculate-hash-btn').addEventListener('click', calculateHash);
+                    break;
+                case 'network-analysis':
+                    document.getElementById('analyze-network-btn').addEventListener('click', analyzeNetworkInput);
+                    break;
+                case 'xor-cipher':
+                    document.getElementById('perform-xor-btn').addEventListener('click', performXOR);
+                    document.getElementById('xor-encrypt-radio').addEventListener('change', updateXORInterface);
+                    document.getElementById('xor-decrypt-radio').addEventListener('change', updateXORInterface);
+                    updateXORInterface();
+                    break;
+                case 'text-analysis':
+                    document.getElementById('analyze-text-btn').addEventListener('click', analyzeText);
+                    break;
+                case 'base64-codec':
+                    document.getElementById('perform-base64-btn').addEventListener('click', performBase64);
+                    document.getElementById('base64-encode-radio').addEventListener('change', updateBase64Interface);
+                    document.getElementById('base64-decode-radio').addEventListener('change', updateBase64Interface);
+                    updateBase64Interface();
+                    break;
+            }
+        }
+
+        // --- 1. Générateur de Mot de Passe ---
+        
+        function updatePasswordLengthDisplay() {
+            const lengthInput = document.getElementById('password-length');
+            const lengthDisplay = document.getElementById('length-display');
+            if (lengthInput && lengthDisplay) {
+                lengthDisplay.textContent = lengthInput.value;
+            }
+        }
+
+        function generatePassword() {
+            const length = parseInt(document.getElementById('password-length').value, 10);
+            const includeUpper = document.getElementById('include-uppercase').checked;
+            const includeDigits = document.getElementById('include-digits').checked;
+            const includeSymbols = document.getElementById('include-symbols').checked;
+            const resultEl = document.getElementById('generation-result');
+
+            let allChars = CHARS_LOWER;
+            let requiredChars = [];
+
+            if (includeUpper) {
+                allChars += CHARS_UPPER;
+                requiredChars.push(CHARS_UPPER);
+            }
+            if (includeDigits) {
+                allChars += CHARS_DIGITS;
+                requiredChars.push(CHARS_DIGITS);
+            }
+            if (includeSymbols) {
+                allChars += CHARS_SYMBOLS;
+                requiredChars.push(CHARS_SYMBOLS);
+            }
+
+            if (allChars.length === 0) {
+                resultEl.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl relative" role="alert">Veuillez sélectionner au moins un type de caractère.</div>`;
+                return;
+            }
+            
+            let password = '';
+            const passwordArray = new Uint32Array(length);
+            window.crypto.getRandomValues(passwordArray);
+
+            // Ensure required character types are present
+            let currentLength = 0;
+            requiredChars.forEach(set => {
+                if (currentLength < length) {
+                    const randomIndex = passwordArray[currentLength] % set.length;
+                    password += set[randomIndex];
+                    currentLength++;
+                }
+            });
+
+            // Fill the rest of the password
+            for (let i = currentLength; i < length; i++) {
+                const randomIndex = passwordArray[i] % allChars.length;
+                password += allChars[randomIndex];
+            }
+
+            // Shuffle the password array to randomize the position of required chars
+            password = password.split('');
+            for (let i = password.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [password[i], password[j]] = [password[j], password[i]];
+            }
+            password = password.join('');
+
+
+            resultEl.innerHTML = `
+                <div class="bg-teal-50 border border-teal-200 text-teal-800 px-6 py-4 rounded-xl shadow-inner">
+                    <p class="font-semibold text-lg mb-2">Mot de Passe Généré :</p>
+                    <code class="block bg-white p-3 rounded-lg border text-lg break-all">${password}</code>
+                </div>
+                <p class="mt-4 text-sm text-gray-500">⚠️ Ne pas réutiliser, sauvegarder ou partager ce mot de passe. Utilisez un gestionnaire de mots de passe.</p>
+            `;
+        }
+
+        // --- 2. Vérificateur de Force de Mot de Passe ---
+
+        function checkPasswordStrength() {
+            const mdp = document.getElementById('strength-password-input').value;
+            const scoreDisplayEl = document.getElementById('strength-score-display');
+            const progressBarEl = document.getElementById('strength-progress-bar');
+            const feedbackEl = document.getElementById('strength-feedback');
+            
+            let score = 0;
+            let feedback = [];
+            let forceText = 'N/A';
+            let progressValue = 0;
+            let barColor = 'bg-gray-400';
+
+            if (!mdp) {
+                scoreDisplayEl.textContent = 'N/A';
+                progressBarEl.style.width = '0%';
+                progressBarEl.className = 'bg-gray-400 h-2.5 rounded-full';
+                feedbackEl.innerHTML = '';
+                return;
+            }
+
+            // 1. Longueur
+            if (mdp.length >= 14) {
+                score += 2;
+            } else if (mdp.length >= 10) {
+                score += 1;
+            } else {
+                feedback.push("Améliorez la **longueur** (visez 14+ caractères).");
+            }
+
+            // 2. Minuscules
+            if (/[a-z]/.test(mdp)) { score += 1; } else { feedback.push("Ajoutez des **minuscules** (a-z)."); }
+            // 3. Majuscules
+            if (/[A-Z]/.test(mdp)) { score += 1; } else { feedback.push("Ajoutez des **MAJUSCULES** (A-Z)."); }
+            // 4. Chiffres
+            if (/[0-9]/.test(mdp)) { score += 1; } else { feedback.push("Ajoutez des **chiffres** (0-9)."); }
+            // 5. Symboles
+            if (/[!@#$%^&*()_+~`|}{[\]\\:;"'?><,./-=\]/.test(mdp)) { score += 1; } else { feedback.push("Ajoutez des **symboles** (!@#$, etc.)."); }
+
+            // Évaluation de la force
+            if (score >= 6) {
+                forceText = 'Très Fort 🔒';
+                progressValue = 100;
+                barColor = 'bg-green-600';
+            } else if (score >= 4) {
+                forceText = 'Fort 👍';
+                progressValue = 75;
+                barColor = 'bg-blue-500';
+            } else if (score >= 2) {
+                forceText = 'Moyen ⚠️';
+                progressValue = 50;
+                barColor = 'bg-yellow-500';
+            } else {
+                forceText = 'Faible 🚨';
+                progressValue = 25;
+                barColor = 'bg-red-500';
+            }
+
+            scoreDisplayEl.textContent = forceText;
+            progressBarEl.style.width = `${progressValue}%`;
+            progressBarEl.className = `${barColor} h-2.5 rounded-full`;
+
+            if (feedback.length > 0) {
+                feedbackEl.innerHTML = `<p class="font-bold text-red-600">Améliorations Recommandées :</p>` + 
+                                       feedback.map(item => `<p class="text-sm text-gray-700">• ${item}</p>`).join('');
+            } else {
+                feedbackEl.innerHTML = `<p class="text-green-600 font-semibold">🎉 Ce mot de passe est très fort !</p>`;
+            }
+        }
+
+        // --- 3. Calculateur de Hachage (Web Crypto API) ---
+
+        async function calculateHash() {
+            const input = document.getElementById('hash-input').value;
+            const algo = document.getElementById('hash-algo').value;
+            const resultEl = document.getElementById('hash-result');
+
+            if (!input.trim()) {
+                resultEl.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">Veuillez entrer du texte à hacher.</div>`;
+                return;
+            }
+
+            try {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(input);
+                
+                // Utilisation de l'API Web Crypto pour le hachage
+                const hashBuffer = await crypto.subtle.digest(algo, data);
+                
+                // Convertir le buffer en hexadécimal
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                resultEl.innerHTML = `
+                    <div class="bg-blue-50 border border-blue-200 text-blue-800 px-6 py-4 rounded-xl shadow-inner">
+                        <p class="font-semibold text-lg mb-2">Résultat (${algo}) :</p>
+                        <code class="block bg-white p-3 rounded-lg border break-all">${hashHex}</code>
+                        <p class="mt-4 text-sm text-gray-500">Longueur: <strong>${hashHex.length}</strong> caractères.</p>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error("Erreur de hachage:", error);
+                resultEl.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">Erreur lors du calcul du hachage : ${error.message}</div>`;
+            }
+        }
+
+        // --- 4. Analyseur d'Hôte et de Domaine (Validation) ---
+        
+        function analyzeNetworkInput() {
+            const input = document.getElementById('network-input').value.trim();
+            const resultEl = document.getElementById('network-result');
+
+            if (!input) {
+                resultEl.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">Veuillez entrer une adresse ou un domaine.</div>`;
+                return;
+            }
+
+            const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+            const urlRegex = /^(https?:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i;
+            
+            let analysis = {
+                'Type': 'Non Valide',
+                'Hôte/Domaine': 'N/A',
+                'Schéma (Protocole)': 'N/A',
+                'Chemin/Port': 'N/A',
+                'Statut DNS': 'Non possible côté client'
+            };
+
+            let isValid = false;
+
+            if (ipRegex.test(input)) {
+                // Input is likely an IP address
+                analysis.Type = 'Adresse IP';
+                analysis['Hôte/Domaine'] = input;
+                isValid = true;
+            } else if (urlRegex.test(input)) {
+                // Input is likely a URL or domain
+                try {
+                    // Tente d'analyser l'URL
+                    const fullUrl = input.startsWith('http') ? input : `https://${input}`;
+                    const url = new URL(fullUrl);
+
+                    analysis.Type = url.protocol ? 'URL Complète' : 'Domaine';
+                    analysis['Hôte/Domaine'] = url.hostname;
+                    analysis['Schéma (Protocole)'] = url.protocol.replace(':', '');
+                    analysis['Chemin/Port'] = `${url.pathname}${url.search}${url.hash}` || '/';
+                    if (url.port) {
+                        analysis['Chemin/Port'] += ` (Port: ${url.port})`;
+                    }
+                    isValid = true;
+                } catch (e) {
+                    // Si la construction de l'URL échoue, cela reste un simple domaine
+                    analysis.Type = 'Domaine';
+                    analysis['Hôte/Domaine'] = input;
+                    isValid = true;
+                }
+            } else {
+                isValid = false;
+            }
+
+            let resultHtml = `<h3 class="text-xl font-semibold mb-4 text-blue-700">Résultats de l'Analyse (Validation de Format)</h3>`;
+            
+            if (isValid) {
+                 resultHtml += `<div class="bg-blue-50 border border-blue-200 p-4 rounded-xl shadow-inner">`;
+                 resultHtml += `<table class="min-w-full divide-y divide-gray-200"><tbody>`;
+                 for (const [key, value] of Object.entries(analysis)) {
+                    resultHtml += `<tr><td class="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-700 w-1/3">${key}</td><td class="px-3 py-2 text-sm text-gray-900 break-all">${value}</td></tr>`;
+                 }
+                 resultHtml += `</tbody></table></div>`;
+                 resultHtml += `<p class="mt-4 text-sm text-red-500 font-semibold">⚠️ Rappel : Le JavaScript côté client NE PEUT PAS effectuer de résolution DNS (conversion Nom -> IP).</p>`;
+            } else {
+                 resultHtml += `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">L'entrée n'est ni une adresse IP valide, ni un domaine/URL bien formé.</div>`;
+            }
+
+            resultEl.innerHTML = resultHtml;
+        }
+
+        // --- 5. Chiffrement XOR ---
+
+        function updateXORInterface() {
+            const mode = document.querySelector('input[name="xor-mode"]:checked').value;
+            const inputLabel = document.getElementById('xor-input-label');
+            const button = document.getElementById('perform-xor-btn');
+
+            if (mode === 'encrypt') {
+                inputLabel.textContent = "Texte à chiffrer (L'output sera en Base64) :";
+                button.textContent = "Chiffrer le Texte";
+                button.className = 'w-full py-3 bg-red-600 text-white font-semibold rounded-xl shadow-md hover:bg-red-700 transition duration-300';
+            } else {
+                inputLabel.textContent = "Texte Base64 à déchiffrer :";
+                button.textContent = "Déchiffrer le Texte";
+                button.className = 'w-full py-3 bg-teal-600 text-white font-semibold rounded-xl shadow-md hover:bg-teal-700 transition duration-300';
+            }
+        }
+
+        function performXOR() {
+            const input = document.getElementById('xor-input').value;
+            const key = document.getElementById('xor-key').value;
+            const mode = document.querySelector('input[name="xor-mode"]:checked').value;
+            const resultEl = document.getElementById('xor-result');
+
+            if (!input || !key) {
+                resultEl.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">Le texte et la clé ne peuvent pas être vides.</div>`;
+                return;
+            }
+
+            let inputBytes;
+            let outputBytes = [];
+
+            try {
+                if (mode === 'encrypt') {
+                    // Texte -> Bytes (UTF-8)
+                    inputBytes = new TextEncoder().encode(input);
+                } else {
+                    // Base64 -> Bytes
+                    const binary_string = window.atob(input);
+                    inputBytes = new Uint8Array(binary_string.length);
+                    for (let i = 0; i < binary_string.length; i++) {
+                        inputBytes[i] = binary_string.charCodeAt(i);
+                    }
+                }
+            } catch (e) {
+                resultEl.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">Erreur : Le texte à déchiffrer n'est pas un Base64 valide.</div>`;
+                return;
+            }
+
+            const keyBytes = new TextEncoder().encode(key);
+            const keyLen = keyBytes.length;
+
+            for (let i = 0; i < inputBytes.length; i++) {
+                outputBytes.push(inputBytes[i] ^ keyBytes[i % keyLen]);
+            }
+
+            let finalResult = '';
+            let successColor = 'bg-red-50'; // Rouge pour le chiffrement
+            let resultLabel = (mode === 'encrypt') ? 'Résultat XOR (en Base64) :' : 'Résultat déchiffré (en Texte) :';
+
+            try {
+                if (mode === 'encrypt') {
+                    // Bytes -> Base64
+                    const binaryString = String.fromCharCode.apply(null, outputBytes);
+                    finalResult = window.btoa(binaryString);
+                    resultLabel = 'Résultat XOR (en Base64) :';
+                } else {
+                    // Bytes -> Texte (UTF-8)
+                    finalResult = new TextDecoder('utf-8').decode(new Uint8Array(outputBytes));
+                    successColor = 'bg-teal-50'; // Vert pour le déchiffrement
+                    resultLabel = 'Résultat déchiffré (en Texte) :';
+                }
+
+                resultEl.innerHTML = `
+                    <div class="${successColor} border border-gray-200 px-6 py-4 rounded-xl shadow-inner">
+                        <p class="font-semibold text-lg mb-2">${resultLabel}</p>
+                        <code class="block bg-white p-3 rounded-lg border break-all">${finalResult}</code>
+                    </div>
+                `;
+            } catch (e) {
+                console.error(e);
+                resultEl.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">Erreur de décodage : Le texte déchiffré n'est pas un texte UTF-8 valide (la clé pourrait être incorrecte).</div>`;
+            }
+        }
+
+        // --- 6. Analyseur de Texte/Fichier ---
+
+        async function analyzeText() {
+            const content = document.getElementById('analysis-input').value;
+            const algo = document.getElementById('analysis-hash-algo').value;
+            const resultEl = document.getElementById('analysis-result');
+            
+            if (!content.trim()) {
+                resultEl.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">Veuillez coller du contenu à analyser.</div>`;
+                return;
+            }
+
+            // 1. Statistiques
+            const contentBytes = new TextEncoder().encode(content);
+            const charCount = content.length;
+            const byteCount = contentBytes.length;
+
+            const words = content.toLowerCase().match(/\b\w+\b/g) || [];
+            const wordCount = words.length;
+
+            const wordCounts = words.reduce((acc, word) => {
+                acc[word] = (acc[word] || 0) + 1;
+                return acc;
+            }, {});
+
+            const sortedWords = Object.entries(wordCounts).sort(([, a], [, b]) => b - a);
+            const top5Words = sortedWords.slice(0, 5);
+            
+            let analysisHtml = `<h3 class="text-xl font-semibold mb-4 text-green-700">Statistiques d'Analyse Rapide</h3>`;
+            
+            analysisHtml += `
+                <div class="grid sm:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-gray-100 p-4 rounded-xl shadow-sm text-center">
+                        <p class="text-xs font-medium text-gray-500">Taille (Octets)</p>
+                        <p class="text-2xl font-bold text-gray-800">${byteCount} B</p>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-xl shadow-sm text-center">
+                        <p class="text-xs font-medium text-gray-500">Nb. Caractères</p>
+                        <p class="text-2xl font-bold text-gray-800">${charCount}</p>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-xl shadow-sm text-center">
+                        <p class="text-xs font-medium text-gray-500">Nb. Mots</p>
+                        <p class="text-2xl font-bold text-gray-800">${wordCount}</p>
+                    </div>
+                </div>
+            `;
+            
+            if (top5Words.length > 0) {
+                analysisHtml += `<p class="font-semibold text-lg mb-2">Fréquence des Mots Clés (Top ${top5Words.length}) :</p>`;
+                analysisHtml += `<div class="bg-gray-100 p-4 rounded-xl mb-8">
+                    <table class="min-w-full">
+                        <thead><tr><th class="text-left text-sm font-medium text-gray-500 py-1">Mot</th><th class="text-left text-sm font-medium text-gray-500 py-1">Occurrences</th></tr></thead>
+                        <tbody>`;
+                top5Words.forEach(([word, count]) => {
+                    analysisHtml += `<tr><td class="text-gray-700 py-1">${word}</td><td class="text-gray-900 font-semibold py-1">${count}</td></tr>`;
+                });
+                analysisHtml += `</tbody></table></div>`;
+            }
+
+            // 2. Hachage (Intégrité)
+            analysisHtml += `<h3 class="text-xl font-semibold mb-4 text-green-700">Hachage pour l'Intégrité (${algo})</h3>`;
+            try {
+                const hashBuffer = await crypto.subtle.digest(algo, contentBytes);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                analysisHtml += `
+                    <div class="bg-teal-50 border border-teal-200 px-6 py-4 rounded-xl shadow-inner">
+                        <p class="font-semibold text-sm mb-2">Empreinte Numérique :</p>
+                        <code class="block bg-white p-3 rounded-lg border break-all">${hashHex}</code>
+                        <p class="mt-4 text-sm text-gray-500">Utilisez ce hachage pour vérifier que le fichier n'a pas été altéré.</p>
+                    </div>
+                `;
+            } catch (error) {
+                analysisHtml += `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">Erreur de hachage : ${error.message}</div>`;
+            }
+
+            resultEl.innerHTML = analysisHtml;
+        }
+
+        // --- 7. Encodeur/Décodeur Base64 ---
+
+        function updateBase64Interface() {
+            const mode = document.querySelector('input[name="base64-mode"]:checked').value;
+            const inputLabel = document.getElementById('base64-input-label');
+            const button = document.getElementById('perform-base64-btn');
+            
+            if (!inputLabel || !button) return;
+
+            if (mode === 'encode') {
+                inputLabel.textContent = "Entrez le texte à encoder ici :";
+                button.textContent = "Encoder";
+                button.className = 'w-full py-3 bg-yellow-600 text-white font-semibold rounded-xl shadow-md hover:bg-yellow-700 transition duration-300';
+            } else {
+                inputLabel.textContent = "Entrez la chaîne Base64 à décoder ici :";
+                button.textContent = "Décoder";
+                button.className = 'w-full py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow-md hover:bg-indigo-700 transition duration-300';
+            }
+        }
+
+        function performBase64() {
+            const input = document.getElementById('base64-input').value;
+            const mode = document.querySelector('input[name="base64-mode"]:checked').value;
+            const resultEl = document.getElementById('base64-result');
+
+            if (!input) {
+                resultEl.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">Le champ d'entrée ne peut pas être vide.</div>`;
+                return;
+            }
+
+            let finalResult = '';
+            let resultLabel = '';
+            let successColor = 'bg-yellow-50';
+
+            try {
+                if (mode === 'encode') {
+                    finalResult = btoa(unescape(encodeURIComponent(input)));
+                    resultLabel = 'Résultat Encodé (Base64) :';
+                } else {
+                    finalResult = decodeURIComponent(escape(atob(input)));
+                    resultLabel = 'Résultat Décodé (Texte) :';
+                    successColor = 'bg-indigo-50';
+                }
+
+                resultEl.innerHTML = `
+                    <div class="${successColor} border border-gray-200 px-6 py-4 rounded-xl shadow-inner">
+                        <p class="font-semibold text-lg mb-2">${resultLabel}</p>
+                        <code class="block bg-white p-3 rounded-lg border break-all">${finalResult}</code>
+                    </div>
+                `;
+
+            } catch (e) {
+                // btoa/atob error handling
+                let errorMsg = (mode === 'decode') ? 
+                    "❌ Erreur de décodage Base64 : La chaîne d'entrée n'est pas un Base64 valide." :
+                    "❌ Erreur d'encodage : Le texte contient un caractère non valide.";
+                
+                resultEl.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">${errorMsg}</div>`;
+            }
+        }
+
+        // Initialisation : Afficher la première page au chargement
+        window.onload = () => {
+            showPage(currentPage);
+        };
+    </script>
+</body>
+</html>
+
