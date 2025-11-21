@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formation Cybersécurité : Tous les Rôles et Bonnes Pratiques</title>
+    <title>Sensibilisation à la Cybersécurité : Tous les Rôles et Bonnes Pratiques</title>
     
     <style>
         body {
@@ -43,10 +43,10 @@
             margin-top: 0;
         }
         h3 {
-            color: #d32f2f; /* Rouge pour les vulnérabilités */
+            color: #d32f2f; /* Rouge pour les vulnérabilités/attaques */
             margin-top: 25px;
         }
-        .simulateur {
+        .attaque-demonstration { /* Exemples d'attaques / démonstrations */
             border: 2px dashed #bbdefb;
             padding: 20px;
             margin: 20px 0;
@@ -123,27 +123,27 @@
 </head>
 <body>
     <header>
-        <h1>🎯 Formation Cybersécurité pour Tous les Rôles</h1>
-        <p>Protégez vos données, votre code et votre infrastructure.</p>
+        <h1>🎯 Sensibilisation à la Cybersécurité pour Tous les Rôles</h1>
+        <p>Comprendre les menaces et adopter les bons réflexes pour la sécurité collective.</p>
     </header>
 
     <main>
 
         <section id="module-utilisateurs">
-            <h2>👤 Module 1 : Utilisateurs Standard (Bureautique et Web)</h2>
-            <p>Ce module concerne la <strong>sécurité humaine</strong>. Vous êtes la première ligne de défense contre les attaques d'ingénierie sociale et les malwares.</p>
+            <h2>👤 Module 1 : Utilisateurs Standard (Sensibilisation aux Risques Quotidiens)</h2>
+            <p>Ce module concerne la <strong>sécurité humaine</strong>. Vous êtes la première ligne de défense contre l'ingénierie sociale et les menaces exploitant l'intelligence artificielle (IA) malveillante.</p>
             
             <div class="role-advice">
-                <h3>3 Règles d'Or pour la Cyber-Hygiène</h3>
+                <h3>3 Réflexes de Cyber-Défense Contre les Menaces Modernes</h3>
                 <ol>
-                    <li><strong>Phishing et E-mail :</strong> Toujours vérifier l'adresse e-mail complète. Si c'est urgent ou inattendu, c'est suspect. Ne jamais fournir vos identifiants via un lien reçu par e-mail. [attachment_0](attachment)</li>
-                    <li><strong>Mots de Passe et 2FA :</strong> Utilisez un <strong>gestionnaire de mots de passe</strong> pour créer et stocker des mots de passe complexes et uniques. Activez la <strong>Double Authentification (2FA)</strong> partout où c'est possible.</li>
-                    <li><strong>Sécurité du Poste :</strong> Verrouillez toujours votre session lorsque vous vous éloignez de votre poste (Windows + L ou Cmd + Ctrl + Q). Ne connectez jamais de clé USB inconnue.</li>
+                    <li><strong>Phishing (Hameçonnage) Avancé :</strong> Méfiez-vous du <strong>Spear Phishing</strong> (ciblé) et des tentatives de <strong>Vishing</strong> (arnaque vocale). Si un collègue demande de l'aide par SMS ou WhatsApp pour un problème urgent de connexion, <strong>vérifiez toujours son identité par un appel vocal connu</strong>. </li>
+                    <li><strong>Mots de Passe et 2FA :</strong> Utilisez un <strong>gestionnaire de mots de passe</strong> et activez la <strong>Double Authentification (2FA)</strong> partout. Idéalement, utilisez des méthodes d'authentification sans mot de passe (Passkeys) ou basées sur des applications (ex: Google Authenticator) plutôt que par SMS.</li>
+                    <li><strong>Sécurité du Poste :</strong> Verrouillez votre session (Win+L ou Cmd+Ctrl+Q). Ne téléchargez jamais de logiciel ou de document provenant de sites non officiels. Les **malwares** se cachent souvent dans des pièces jointes ou des programmes d'apparence légitime.</li>
                 </ol>
             </div>
             
-            <div class="simulateur">
-                <h3>Mini-Test : Reconnaître le Phishing</h3>
+            <div class="attaque-demonstration">
+                <h3>Exemple d'Attaque : Phishing</h3>
                 <p>Un e-mail de "support-tech@microssoft.com" vous demande de cliquer ici sous peine de blocage imminent de votre compte.</p>
                 <button onclick="repondrePhishing(true)">Cliquer Immédiatement (C'est urgent!)</button>
                 <button onclick="repondrePhishing(false)">Vérifier l'adresse et le contexte</button>
@@ -155,14 +155,14 @@
 
         <section id="module-sensible">
             <h2>💰 Module 2 : RH & Comptabilité (Fraude et Confidentialité)</h2>
-            <p>En manipulant les données financières et personnelles, vous êtes la cible principale des attaques d'<strong>usurpation d'identité</strong> et de la <strong>fraude au virement</strong>.</p>
+            <p>En manipulant les données financières et personnelles, vous êtes la cible principale des attaques d'<strong>usurpation d'identité par Deepfake</strong> et de la <strong>fraude au virement</strong>.</p>
             
             <div class="role-advice rh-advice">
                 <h3>Protocoles Anti-Fraude Bancaire et Sociale</h3>
                 <ul>
-                    <li><strong>Double Vérification des Virements :</strong> Pour toute demande de virement ou de changement d'IBAN (fournisseur, salarié, "PDG"), <strong>confirmez toujours par appel vocal</strong> sur un numéro connu (jamais celui de l'e-mail suspect). C'est la seule parade efficace contre la Fraude au Président.</li>
-                    <li><strong>Données Personnelles :</strong> Chiffrez toujours les documents RH (bulletins de paie, dossiers médicaux) stockés ou partagés. La loi (RGPD) sanctionne la négligence.</li>
-                    <li><strong>Attention aux Mails du PDG :</strong> Soyez suspicieux face aux demandes urgentes et secrètes émanant de la direction par e-mail. Elles peuvent être une tentative d'usurpation.</li>
+                    <li><strong>Fraude au Président (CEO Fraud) / Virement :</strong> La menace principale. Pour toute demande de virement ou de changement d'IBAN, <strong>mettez en place une vérification hors bande obligatoire :</strong> deux niveaux de validation ou un appel sur une ligne sécurisée. L'e-mail ou même un appel vidéo (Deepfake) ne suffisent plus.</li>
+                    <li><strong>Ransomware et Chantage aux Données (RH) :</strong> Les attaques ciblent les serveurs de fichiers RH. L'exfiltration de données personnelles entraîne des amendes RGPD. <strong>Chiffrez toujours les documents sensibles</strong> et utilisez des espaces de stockage sécurisés (VPN/SFTP).</li>
+                    <li><strong>Usurpation d'Identité via IA :</strong> Si vous recevez un message vocal ou vidéo urgent du PDG, ne donnez pas suite sans une vérification visuelle ou un mot de passe de confirmation connu. Les Deepfakes vocaux sont de plus en plus réalistes.</li>
                 </ul>
             </div>
         </section>
@@ -170,16 +170,16 @@
         <hr>
 
         <section id="module-technique">
-            <h2>⚙️ Module 3 : Techniciens IT / Réseaux (Hygiène de l'Infrastructure)</h2>
-            <p>La <strong>résilience</strong> de l'entreprise repose sur la robustesse de votre architecture et l'application stricte des politiques de sécurité.</p>
+            <h2>⚙️ Module 3 : Techniciens IT / Réseaux (Défense de l'Infrastructure)</h2>
+            <p>La <strong>résilience</strong> face aux **ransomwares par double extorsion** et les **attaques de la chaîne d'approvisionnement** est votre priorité.</p>
             
             <div class="role-advice tech-advice">
-                <h3>Checklist Sécurité Réseau et Système</h3>
+                <h3>Exemples d'Architecture Sûre (Checklist)</h3>
                 <ul>
-                    <li><strong>Gestion des Correctifs (Patch Management) :</strong> Automatisez et priorisez l'application des correctifs de sécurité (zero-day) sur les systèmes critiques (serveurs, firewalls).</li>
-                    <li><strong>Segmentation et Zero Trust :</strong> Utilisez des <strong>VLANs</strong> et des règles de pare-feu pour séparer le réseau. L'accès à chaque ressource doit être <strong>authentifié et autorisé</strong> (principe du Zero Trust), quelle que soit la position de l'utilisateur. [attachment_1](attachment)</li>
-                    <li><strong>Journalisation et Surveillance :</strong> Centralisez tous les journaux (logs) dans un outil SIEM pour l'analyse en temps réel et la détection d'activités anormales.</li>
-                    <li><strong>Sauvegardes 3-2-1 :</strong> Ayez 3 copies de données, sur 2 types de supports différents, dont 1 copie <strong>hors ligne ou immuable</strong> pour se protéger efficacement contre les ransomwares.</li>
+                    <li><strong>Réponse aux Ransomwares :</strong> Le point critique est la récupération. Mettez en place des sauvegardes **Immuables** (WORM - Write Once Read Many) ou **Hors Ligne** pour garantir que les sauvegardes ne peuvent pas être chiffrées par les attaquants.</li>
+                    <li><strong>Défense de la Chaîne d'Approvisionnement :</strong> Contrôlez et segmentez l'accès des fournisseurs et des logiciels tiers. Isolez les systèmes de développement des systèmes de production. Utilisez l'approche **Zero Trust** même avec les partenaires de confiance. </li>
+                    <li><strong>Gestion des Correctifs (Patch Management) :</strong> Priorisez l'application immédiate des correctifs critiques sur les systèmes exposés sur Internet (VPN, serveurs de messagerie) pour prévenir les intrusions initiales (initial access).</li>
+                    <li><strong>Journalisation et Surveillance :</strong> Centralisez tous les journaux dans un outil **SIEM/SOC** pour l'analyse en temps réel et la détection d'activités anormales (exfiltration de données, mouvements latéraux).</li>
                 </ul>
             </div>
         </section>
@@ -187,13 +187,14 @@
         <hr>
 
         <section id="module-developpeurs">
-            <h2>💻 Module 4 : Développeurs (Code Sécurisé)</h2>
-            <p>Les démonstrations suivantes montrent <strong>comment fonctionne une faille</strong> et la méthode concrète pour l'éliminer à la source.</p>
+            <h2>💻 Module 4 : Développeurs (Démonstrations de Vulnérabilités)</h2>
+            <p>Comprendre le fonctionnement d'une faille au niveau du code est la première étape pour l'éliminer à la source.</p>
             
             <section id="demonstration-xss">
-                <h3>🧪 4.1. La Vulnérabilité XSS (Cross-Site Scripting)</h3>
+                <h3>🧪 4.1. Injection XSS (Cross-Site Scripting)</h3>
                 <p>Permet à un attaquant d'exécuter du code JavaScript malveillant dans le navigateur d'un autre utilisateur. Danger : vol de cookies de session.</p>
-                <div class="simulateur">
+                <div class="attaque-demonstration">
+                    <h4>Exemple d'Injection XSS (VULNÉRABLE)</h4>
                     <label for="commentaire">Entrez un code HTML :</label>
                     <input type="text" id="commentaire" placeholder="Testez : <img src=x onerror=alert('XSS_Réussi!')>">
                     <button onclick="afficherCommentaireVulnerable()">1. Publier (VULNÉRABLE)</button>
@@ -209,9 +210,10 @@
             </section>
 
             <section id="demonstration-hashing">
-                <h3>🔑 4.2. Le Hachage (Hashing) des Mots de Passe</h3>
-                <p>Les mots de passe ne doivent pas être récupérables, d'où la nécessité de les hacher (fonction unidirectionnelle).</p>
-                <div class="simulateur">
+                <h3>🔑 4.2. Hachage et Salage (Sécurité des Mots de Passe)</h3>
+                <p>Les mots de passe ne doivent pas être récupérables, d'où la nécessité de les hacher (fonction unidirectionnelle) et de les saler.</p>
+                <div class="attaque-demonstration">
+                    <h4>Démonstration de Hachage Pédagogique</h4>
                     <label for="mdpClair">Mot de passe en clair :</label>
                     <input type="text" id="mdpClair" placeholder="Entrez un mot de passe">
                     <button onclick="hacherMotDePasse()">Hacher et Saler (Simulé)</button>
@@ -228,8 +230,9 @@
 
             <section id="demonstration-bruteforce">
                 <h3>🔨 4.3. Attaque par Force Brute et Défense</h3>
-                <p>Tente d'exploiter les combinaisons de mots de passe et noms d'utilisateur à un rythme très rapide.</p>
-                <div class="simulateur">
+                <p>Tente d'exploiter les combinaisons de mots de passe et noms d'utilisateur à un rythme très rapide sur un point d'authentification.</p>
+                <div class="attaque-demonstration">
+                    <h4>Exemple d'Attaque par Force Brute</h4>
                     <label for="mdpAttaque">Mot de passe à tester (Exemple : <code>123456</code>):</label>
                     <input type="password" id="mdpAttaque" placeholder="Entrez la cible">
                     <button onclick="tenterConnexion()">Tenter la Connexion</button>
@@ -247,8 +250,9 @@
             
             <section id="demonstration-csrf">
                 <h3>🛡️ 4.6. Faille CSRF (Cross-Site Request Forgery)</h3>
-                <p>Exploite le fait que le navigateur envoie automatiquement le cookie de session lors d'une requête vers un site où l'utilisateur est connecté.</p>
-                <div class="simulateur">
+                <p>Exploite le fait que le navigateur envoie automatiquement le cookie de session lors d'une requête vers un site où l'utilisateur est déjà connecté.</p>
+                <div class="attaque-demonstration">
+                    <h4>Exemple d'Attaque CSRF (Usurpation de Requête)</h4>
                     <p>Requête Critique VULNÉRABLE :</p>
                     <div class="csrf-token">
                         GET https://MonCompte.com/transfert?dest=Attaquant&montant=1000
@@ -259,7 +263,7 @@
                 <div class="defense">
                     <h4>✅ La Défense contre le CSRF</h4>
                     <ul>
-                        <li><strong>Tokens Anti-CSRF :</strong> Le principal moyen. Un jeton secret doit être inclus dans tous les formulaires critiques. </li>
+                        <li><strong>Tokens Anti-CSRF :</strong> Un jeton secret doit être inclus dans tous les formulaires critiques. </li>
                         <li><strong>Header SameSite :</strong> Configurez les cookies de session avec <code>SameSite=Strict</code>.</li>
                     </ul>
                 </div>
@@ -267,8 +271,9 @@
 
             <section id="demonstration-sqli">
                 <h3>💥 4.4. Injection SQL (SQLi)</h3>
-                <p>Vulnérabilité côté serveur qui permet l'exécution de commandes SQL arbitraires, menant au vol ou à la destruction des données.</p>
-                <div class="simulateur">
+                <p>Vulnérabilité côté serveur qui permet l'exécution de commandes SQL arbitraires, menant au vol ou à la destruction des données de la base de données.</p>
+                <div class="attaque-demonstration">
+                    <h4>Exemple d'Injection SQL (VULNÉRABLE)</h4>
                     <label for="utilisateurSQL">Nom d'utilisateur :</label>
                     <input type="text" id="utilisateurSQL" placeholder="Tentez : ' OR '1'='1">
                     <button onclick="tenterConnexionSQL()">Simuler Connexion</button>
@@ -285,8 +290,8 @@
             </section>
 
             <section id="https-tls">
-                <h3>🔒 4.5. Le Protocole HTTPS et TLS</h3>
-                <p>Chiffrement essentiel pour garantir la confidentialité et l'intégrité des communications (Man-in-the-Middle).</p>
+                <h3>🔒 4.5. Protocole HTTPS et TLS</h3>
+                <p>Le chiffrement est essentiel pour garantir la confidentialité et l'intégrité des communications entre le client et le serveur (défense contre l'attaque de type Man-in-the-Middle).</p>
                 <div class="defense">
                     <h4>✅ Bonnes Pratiques HTTPS et TLS</h4>
                     <ul>
@@ -301,7 +306,7 @@
     </main>
     
     <footer>
-        <p>&copy; 2025 Formation Cybersécurité - La sécurité est l'affaire de tous.</p>
+        <p>&copy; 2025 Sensibilisation à la Cybersécurité - La sécurité est l'affaire de tous.</p>
     </footer>
 
     <script>
