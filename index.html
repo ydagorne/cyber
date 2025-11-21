@@ -132,7 +132,7 @@
                     <li><strong>Comprendre le Hachage :</strong> Le <strong>hachage</strong> est un processus qui rend votre mot de passe illisible et irréversible pour le serveur. Même si la base de données est volée, les attaquants ne trouvent que des 'empreintes' (hashs) et non le mot de passe en clair.</li>
                     <li><strong>La Longueur est la Clé :</strong> Visez des phrases de passe longues (14 caractères minimum) plutôt que des mots complexes mais courts. <strong>Exemple : <code>Ch@uv€-s0ur1s-B1eu€-18!</code></strong></li>
                     <li><strong>Unicité Totale :</strong> N'utilisez <strong>JAMAIS</strong> le même mot de passe. Cela prévient le "Credential Stuffing" (utilisation d'identifiants volés sur d'autres services).</li>
-                    <li><strong>Double Authentification (2FA/MFA) :</strong> Activez-la partout. Privilégiez l'<strong>authentification sans mot de passe</strong> (Passkeys) ou l'utilisation d'applications d'authentification (TotP) qui sont plus sûres que les SMS. [attachment_0](attachment)</li>
+                    <li><strong>Double Authentification (2FA/MFA) :</strong> Activez-la partout. Privilégiez l'<strong>authentification sans mot de passe</strong> (Passkeys) ou l'utilisation d'applications d'authentification (TotP) qui sont plus sûres que les SMS. [attachment_1](attachment)</li>
                 </ul>
             </div>
 
@@ -141,7 +141,7 @@
                 <ol>
                     <li><strong>Phishing, Quishing et MFA Phishing :</strong> Méfiez-vous des e-mails sophistiqués (IA Générative) et des **faux codes QR (Quishing)**. De plus, ne donnez <strong>JAMAIS</strong> votre code de Double Authentification (OTP) sur un site non vérifié. Les attaquants utilisent le **MFA Phishing** pour vous le soutirer. <strong>Vérifiez TOUJOURS l'URL</strong>.</li>
                     <li><strong>Détournement de Session (Session Hijacking) :</strong> La 2FA ne vous protège pas contre le vol de votre session active (cookie). Si vous vous connectez à un site malveillant, il peut voler votre session. <strong>Déconnectez-vous toujours</strong> des applications sensibles lorsque vous ne les utilisez pas.</li>
-                    <li><strong>Malware (Ransomware, Spyware) :</strong> Le <strong>Ransomware</strong> (rançongiciel) est l'attaque la plus destructrice. Si l'antivirus signale un problème, <strong>déconnectez immédiatement</strong> votre poste du réseau et alertez le support. [attachment_1](attachment)</li>
+                    <li><strong>Malware (Ransomware, Spyware) :</strong> Le <strong>Ransomware</strong> (rançongiciel) est l'attaque la plus destructrice. Si l'antivirus signale un problème, <strong>déconnectez immédiatement</strong> votre poste du réseau et alertez le support. [attachment_2](attachment)</li>
                     <li><strong>Clés USB Piégées (Baiting) :</strong> Ne connectez <strong>JAMAIS un équipement inconnu (clé USB)</strong> trouvé dans un lieu public (parking, salon). Ces supports sont des appâts (Baiting) souvent piégés pour injecter des malwares.</li>
                 </ol>
             </div>
@@ -180,9 +180,9 @@
             <div class="role-advice tech-advice">
                 <h3>Architecture et Défenses Systèmes (Niveau Critique)</h3>
                 <ul>
-                    <li><strong>Approche Zero Trust (Confiance Zéro) :</strong> <strong>N'accordez jamais la confiance par défaut</strong>. Chaque utilisateur et chaque appareil, même au sein du réseau, doit être continuellement vérifié. Ceci est essentiel pour stopper les <strong>mouvements latéraux</strong> des attaquants. [attachment_2](attachment)</li>
+                    <li><strong>Approche Zero Trust (Confiance Zéro) :</strong> <strong>N'accordez jamais la confiance par défaut</strong>. Chaque utilisateur et chaque appareil, même au sein du réseau, doit être continuellement vérifié. Ceci est essentiel pour stopper les <strong>mouvements latéraux</strong> des attaquants. [attachment_3](attachment)</li>
                     <li><strong>Ransomware et Immuabilité :</strong> La seule garantie de récupération est la sauvegarde <strong>immuable</strong> (WORM) ou une copie <strong>physiquement hors ligne</strong> (air-gapped). Testez régulièrement la restauration complète.</li>
-                    <li><strong>Défense de la Chaîne d'Approvisionnement (Supply Chain) :</strong> C'est le point d'entrée critique. Isolez les outils tiers (logiciels, fournisseurs) et appliquez un contrôle strict des privilèges qu'ils possèdent sur votre infrastructure. [attachment_3](attachment)</li>
+                    <li><strong>Défense de la Chaîne d'Approvisionnement (Supply Chain) :</strong> C'est le point d'entrée critique. Isolez les outils tiers (logiciels, fournisseurs) et appliquez un contrôle strict des privilèges qu'ils possèdent sur votre infrastructure. [attachment_4](attachment)</li>
                     <li><strong>Hygiène des Correctifs :</strong> Mettez en place une politique d'application des correctifs <strong>automatisée</strong> et <strong>priorisée</strong> (Patch Management) sur les systèmes exposés (VPN, Firewalls) pour réduire la fenêtre d'exploitation des vulnérabilités.</li>
                 </ul>
             </div>
@@ -203,10 +203,10 @@
             const resultat = document.getElementById('resultatPhishing');
             if (clic) {
                 resultat.innerHTML = '❌ <strong>FAUX !</strong> Une demande urgente et une faute dans l\'adresse sont des signes d\'alarme majeurs. Vous venez d\'être hameçonné.';
-                result (resultat.style.color = '#c62828';)
+                resultat.style.color = '#c62828';
             } else {
                 resultat.innerHTML = '✅ <strong>BONNE RÉPONSE !</strong> L\'e-mail est frauduleux (faute de frappe dans le domaine).';
-                result (resultat.style.color = '#4caf50';)
+                resultat.style.color = '#4caf50';
             }
         }
     </script>
