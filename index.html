@@ -14,12 +14,37 @@
             background-color: #f3f4f6; /* Gris clair */
         }
         .sidebar {
-            /* Fixe la barre latérale pour le mobile ou le grand écran */
+            /* Positionnement et transition pour mobile */
             transition: transform 0.3s ease-in-out;
-            transform: translateX(-100%);
+            transform: translateX(-100%); 
+            z-index: 70; /* TRÈS HAUT pour être sûr d'être au-dessus */
         }
         .sidebar.open {
-            transform: translateX(0);
+            transform: translateX(0); /* Affiche le menu */
+        }
+        /* Toile de fond pour masquer le contenu principal quand le menu est ouvert */
+        .sidebar-backdrop {
+            z-index: 60; /* Juste en dessous de la sidebar */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .sidebar-backdrop.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Assure que la barre latérale est toujours visible sur desktop (lg breakpoint) */
+        @media (min-width: 1024px) {
+            .sidebar {
+                transform: translateX(0) !important; /* Force la visibilité */
+            }
+            .content-area {
+                margin-left: 18rem; /* Décalage pour la barre latérale fixe */
+            }
+            .sidebar-backdrop {
+                display: none !important; /* Cache la toile de fond sur desktop */
+            }
         }
         /* Style pour les boutons de navigation actifs */
         .nav-active {
@@ -30,34 +55,29 @@
         .nav-item:hover:not(.nav-active) {
              background-color: #e0f2f1; /* Gris clair */
         }
-        @media (min-width: 1024px) {
-            .sidebar {
-                transform: translateX(0); /* Visible sur desktop */
-            }
-            .content-area {
-                margin-left: 18rem; /* Décalage pour la barre latérale fixe */
-            }
-        }
     </style>
 </head>
 <body class="min-h-screen">
 
-    <!-- Bouton de menu pour mobile -->
-    <button id="menu-btn" class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-600 text-white rounded-md shadow-lg transition duration-300 hover:bg-blue-700">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <!-- Bouton de menu pour mobile (plus visible) -->
+    <button id="menu-btn" class="lg:hidden fixed top-4 left-4 z-50 p-3 bg-blue-600 text-white rounded-full shadow-lg transition duration-300 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500/50" style="z-index: 80;">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
         </svg>
     </button>
+    
+    <!-- Toile de Fond (Backdrop) - S'affiche uniquement sur mobile lorsque le menu est ouvert -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop fixed inset-0 bg-black/50 lg:hidden"></div>
 
     <!-- Barre Latérale (Sidebar) -->
-    <aside id="sidebar" class="sidebar fixed inset-y-0 left-0 z-40 w-72 bg-white p-6 shadow-2xl lg:shadow-xl lg:w-72 lg:flex flex-col">
+    <aside id="sidebar" class="sidebar fixed inset-y-0 left-0 w-72 bg-white p-6 shadow-2xl lg:shadow-xl lg:w-72 flex flex-col">
         <h1 class="text-3xl font-extrabold text-blue-800 mb-8 mt-4 lg:mt-0">
             <span class="text-gray-600">🛡️</span> CyberSec Helper
         </h1>
 
         <!-- Menu de Navigation -->
         <nav class="space-y-2 flex-grow">
-            <button class="nav-item w-full text-left p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-teal-500/50" onclick="showPage('password-gen')">
+            <button class="nav-item w-full text-left p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200" onclick="showPage('password-gen')">
                 🔑 Générateur de Mot de Passe
             </button>
             <button class="nav-item w-full text-left p-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200" onclick="showPage('password-strength')">
@@ -82,7 +102,7 @@
     </aside>
     
     <!-- Zone de Contenu Principale -->
-    <main id="content" class="content-area p-4 sm:p-8 lg:p-12 transition-all duration-300">
+    <main id="content" class="content-area p-4 sm:p-8 lg:p-12 transition-all duration-300 z-50">
         <div id="page-content" class="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-xl min-h-screen">
             <!-- Le contenu de la page sera injecté ici par JavaScript -->
             <div class="text-center p-10 text-gray-500">
@@ -104,15 +124,28 @@
         const pageContentEl = document.getElementById('page-content');
         const sidebarEl = document.getElementById('sidebar');
         const menuBtn = document.getElementById('menu-btn');
+        const backdropEl = document.getElementById('sidebar-backdrop');
         const navItems = document.querySelectorAll('.nav-item');
 
+        // Fonction pour basculer la visibilité de la sidebar
+        function toggleSidebar() {
+            const isOpen = sidebarEl.classList.toggle('open');
+            backdropEl.classList.toggle('open', isOpen);
+            console.log("Sidebar toggled. Current state:", isOpen ? "OPEN" : "CLOSED");
+        }
 
         // --- Gestion de la Navigation ---
 
-        // Événement pour le bouton de menu mobile
-        menuBtn.addEventListener('click', () => {
-            sidebarEl.classList.toggle('open');
+        // 1. Événement pour le bouton de menu mobile
+        menuBtn.addEventListener('click', toggleSidebar);
+
+        // 2. Événement pour fermer la sidebar en cliquant sur la toile de fond
+        backdropEl.addEventListener('click', () => {
+             console.log("Backdrop clicked. Closing sidebar.");
+             sidebarEl.classList.remove('open');
+             backdropEl.classList.remove('open');
         });
+
 
         // Fonction pour sélectionner l'outil actif
         function setActiveNav(pageId) {
@@ -123,9 +156,10 @@
                     btn.classList.add('nav-active');
                 }
             });
-             // Fermer la sidebar après la sélection sur mobile
+             // Fermer la sidebar et le backdrop après la sélection sur mobile (Amélioration UX)
             if (window.innerWidth < 1024) {
                  sidebarEl.classList.remove('open');
+                 backdropEl.classList.remove('open');
             }
         }
 
@@ -204,7 +238,7 @@
                 case 'hash-calc':
                     return `
                         <h2 class="text-3xl font-bold text-blue-700 mb-6">🧮 Calculateur de Hachage (Hash)</h2>
-                        <p class="text-gray-600 mb-8">Générez des empreintes numériques (checksum) pour vérifier l'intégrité des données.</p>
+                        <p class="text-gray-600 mb-8">Générer des empreintes numériques (checksum) pour vérifier l'intégrité des données.</p>
                         
                         <div class="space-y-6">
                             <label for="hash-algo" class="block text-lg font-medium text-gray-700">Sélectionnez l'algorithme :</label>
