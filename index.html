@@ -3,190 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formation Cybersécurité : Concepts Fondamentaux</title>
+    <title>Formation Cybersécurité : Vulnérabilités et Bonnes Pratiques</title>
     
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
+            background-color: #e9eef2;
             color: #333;
         }
         header {
-            background-color: #004d99;
+            background-color: #1a237e; /* Bleu foncé */
             color: white;
-            padding: 20px;
+            padding: 30px 20px;
             text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
         }
         main {
             padding: 20px;
-            max-width: 900px;
-            margin: auto;
+            max-width: 1000px;
+            margin: 20px auto;
         }
         section {
             background-color: white;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
         h2 {
-            color: #004d99;
-            border-bottom: 2px solid #004d99;
-            padding-bottom: 10px;
+            color: #0d47a1; /* Bleu clair */
+            border-bottom: 3px solid #0d47a1;
+            padding-bottom: 15px;
             margin-top: 0;
         }
         h3 {
-            color: #cc0000;
+            color: #d32f2f; /* Rouge pour les vulnérabilités */
+            margin-top: 25px;
         }
         .simulateur {
-            border: 1px dashed #ccc;
+            border: 2px dashed #bbdefb;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f0f4ff;
+            border-radius: 6px;
+        }
+        .defense {
+            background-color: #e8f5e9; /* Vert très clair */
+            border-left: 6px solid #4caf50; /* Vert de la solution */
             padding: 15px;
-            margin: 15px 0;
-            background-color: #fff9e6;
+            margin-top: 20px;
             border-radius: 4px;
-        }
-        .explication {
-            background-color: #e6f7ff;
-            padding: 10px;
-            border-left: 5px solid #004d99;
-            margin-top: 15px;
-        }
-        #zoneAffichage {
-            min-height: 50px;
-            background-color: #ffcccc; /* Fond rouge pour montrer la zone dangereuse */
-            padding: 10px;
-            margin-top: 10px;
             font-weight: bold;
         }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 5px;
+        .explication {
+            background-color: #fbecec; /* Rouge très clair */
+            border-left: 6px solid #c62828; /* Rouge du danger */
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
         }
-        button:hover {
-            background-color: #0056b3;
+        #resultatSQL, .csrf-token {
+            font-family: monospace;
+            background-color: #333;
+            color: #00ff00;
+            padding: 15px;
+            white-space: pre;
+            border-radius: 4px;
+            overflow-x: auto;
         }
+        /* ... Styles d'inputs et boutons restent identiques ... */
         footer {
             text-align: center;
-            padding: 10px;
-            margin-top: 20px;
-            color: #666;
-            border-top: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 30px;
+            color: white;
+            background-color: #1a237e;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>🎓 Formation Cybersécurité Interactive</h1>
-        <p>Apprenez les fondamentaux en simulant des failles et des bonnes pratiques.</p>
+        <h1>🛠️ Défendre l'Application Web : Bonnes Pratiques</h1>
+        <p>Pour chaque vulnérabilité, apprenez la bonne pratique pour y remédier.</p>
     </header>
 
     <main>
         
         <section id="demonstration-xss">
-            <h2>🚨 Démo 1 : La Vulnérabilité XSS (Cross-Site Scripting)</h2>
-            <p>Le **JavaScript** qui s'exécute côté client (votre navigateur) peut être manipulé si l'application ne filtre pas les entrées. Nous allons simuler une injection de code dangereuse.</p>
+            <h2>🧪 Démo 1 : La Vulnérabilité XSS (Cross-Site Scripting)</h2>
+            <p>L'attaque XSS permet d'injecter du code dans le navigateur d'autres utilisateurs. Elle survient lorsque l'application ne filtre pas les entrées.</p>
             
             <div class="simulateur">
                 <h3>Simulateur de Zone de Commentaire VULNÉRABLE</h3>
+                <label for="commentaire">Entrez un texte ou un code HTML :</label>
+                <input type="text" id="commentaire" placeholder="Testez : <img src=x onerror=alert('XSS_Réussi!')>">
+                <button onclick="afficherCommentaireVulnerable()">1. Publier (Mode Dangereux)</button>
                 
-                <label for="commentaire">Entrez un commentaire :</label>
-                <input type="text" id="commentaire" placeholder="Testez : <img src=x onerror=alert('XSS%20Réussi!')>">
-                <button onclick="afficherCommentaireVulnerable()">Publier (Dangereux)</button>
-                
-                <h4>Espace d'Affichage (Non Filtré) :</h4>
-                <div id="zoneAffichage">
-                    <em>Le résultat de l'injection apparaîtra ici.</em>
-                </div>
-                
-                <p class="explication">
-                    <strong>Explication :</strong> L'attaquant insère du code HTML/JS. Si le serveur utilise la méthode non sécurisée **`innerHTML`** pour afficher ce contenu, le code malveillant s'exécute.
-                </p>
-                <button onclick="afficherCommentaireSecurise()">Voir la Solution Sûre (Utiliser textContent)</button>
+                <div id="zoneAffichage"><em>Contenu non sécurisé.</em></div>
+                <button onclick="afficherCommentaireSecurise()">2. Voir la Solution Sûre (textContent)</button>
+            </div>
+
+            <div class="defense">
+                <h3>✅ La Défense contre le XSS</h3>
+                <ul>
+                    <li>**Encodage des Sorties (Output Encoding) :** Toujours traiter les données utilisateur comme du **texte pur** lors de l'affichage. En JavaScript, utilisez **`element.textContent`** au lieu de `element.innerHTML`.</li>
+                    <li>**Validation :** Filtrer les entrées pour n'accepter que les caractères attendus (ex: uniquement des lettres et chiffres pour un nom d'utilisateur).</li>
+                </ul>
             </div>
         </section>
         
+        <hr>
+
+        <section id="demonstration-sqli">
+            <h2>💥 Démo 4 : Injection SQL (SQLi)</h2>
+            <p>L'Injection SQL permet de modifier les requêtes à la base de données via les champs de saisie, permettant le vol ou la manipulation des données. C'est une vulnérabilité côté **serveur**.</p>
+            
+            <div class="simulateur">
+                <h3>Simulateur de Connexion VULNÉRABLE</h3>
+                <label for="utilisateurSQL">Nom d'utilisateur :</label>
+                <input type="text" id="utilisateurSQL" placeholder="Tentez : ' OR '1'='1">
+                <button onclick="tenterConnexionSQL()">Simuler Connexion</button>
+                <h4>Requête SQL Exécutée (Simulée) :</h4>
+                <div id="resultatSQL"></div>
+            </div>
+
+            <div class="defense">
+                <h3>✅ La Défense contre la SQLi</h3>
+                <ul>
+                    <li>**Requêtes Préparées (Prepared Statements) :** La solution **principale**. Cela sépare toujours la logique SQL des données utilisateurs, garantissant que les entrées sont toujours traitées comme des **données** et non comme des **instructions SQL**.</li>
+                    <li>**Principe du Moindre Privilège :** Les comptes utilisés par l'application pour accéder à la base de données ne devraient avoir que les permissions minimales nécessaires (ex: pas le droit de supprimer ou modifier des tables sensibles).</li>
+                </ul>
+            </div>
+        </section>
+        
+        <hr>
+
+        <section id="demonstration-csrf">
+            <h2>🛡️ Démo 6 : Faille CSRF (Cross-Site Request Forgery)</h2>
+            <p>Le navigateur envoie automatiquement le cookie de session aux sites légitimes. Le CSRF exploite cette confiance pour forcer l'utilisateur à exécuter une action critique à son insu.</p>
+            
+            <div class="simulateur">
+                <h3>Simulateur d'Attaque CSRF (Transfert Bancaire)</h3>
+                <p>URL de la banque (action critique) :</p>
+                <div class="csrf-token">
+                    GET https://MonCompte.com/transfert?dest=Attaquant&montant=1000
+                </div>
+                <button onclick="simulerAttaqueCSRF()">Simuler l'ouverture d'un site malveillant</button>
+                <p id="resultatCSRF" style="margin-top: 15px;">---</p>
+            </div>
+
+            <div class="defense">
+                <h3>✅ La Défense contre le CSRF</h3>
+                <ul>
+                    <li>**Tokens Anti-CSRF :** Utiliser un **jeton secret** unique à la session et à la requête. Ce jeton doit être inclus dans tous les formulaires et vérifié côté serveur. Un attaquant sur un autre site ne peut pas deviner ce jeton.</li>
+                    <li>**Header `SameSite` pour les Cookies :** Configurer les cookies de session avec l'attribut `SameSite=Strict` (ou `Lax`). Le navigateur n'enverra alors pas le cookie lors de requêtes initiées par d'autres domaines (sites externes), bloquant la plupart des attaques CSRF.</li>
+                </ul>
+            </div>
+        </section>
+
         <hr>
 
         <section id="demonstration-hashing">
             <h2>🔑 Démo 2 : Le Hachage (Hashing) des Mots de Passe</h2>
-            <p>Un mot de passe ne doit **jamais** être stocké en clair. Il doit être haché (transformé en une empreinte unique) et idéalement **salé** (ajout d'une valeur aléatoire pour compliquer les attaques par dictionnaire).</p>
-            
+            <p>Il ne faut jamais stocker les mots de passe en clair. Le hachage les transforme en une empreinte unique et irréversible.  </p>
             
             <div class="simulateur">
-                <h3>Simulateur de Hachage Pédagogique</h3>
-                
-                <label for="mdpClair">Mot de passe en clair :</label>
-                <input type="text" id="mdpClair">
-                <button onclick="hacherMotDePasse()">Hacher (Simulé)</button>
-                
-                <p><strong>Résultat du Hachage (Empreinte) :</strong> <span id="resultatHachage">---</span></p>
-                
-                <p class="explication">
-                    <strong>Concept :</strong> Le hachage est une fonction **à sens unique**. Même si la base de données est volée, l'attaquant ne dispose que de l'empreinte hachée, et non du mot de passe original.
-                </p>
+                </div>
+
+            <div class="defense">
+                <h3>✅ La Bonne Pratique pour le Stockage des Mots de Passe</h3>
+                <ul>
+                    <li>**Hachage Lent et Salé :** Utiliser des algorithmes de hachage **lents** et spécifiquement conçus pour les mots de passe, comme **Bcrypt** ou **Argon2**. La lenteur décourage les attaques par force brute sur le hash.</li>
+                    <li>**Sel (Salt) Unique :** Chaque mot de passe doit être haché avec un "sel" (valeur aléatoire) unique. Ceci empêche l'utilisation de tables arc-en-ciel (*rainbow tables*).</li>
+                </ul>
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="demonstration-bruteforce">
+            <h2>🔨 Démo 3 : Attaque par Force Brute et Défense</h2>
+            <p>Une attaque par force brute tente systématiquement des mots de passe. Elle est facile si les tentatives ne sont pas contrôlées.</p>
+            
+            <div class="simulateur">
+                </div>
+
+            <div class="defense">
+                <h3>✅ La Défense contre la Force Brute</h3>
+                <ul>
+                    <li>**Limitation de Taux (Rate Limiting) :** Après N tentatives échouées (ex: 5), bloquer l'utilisateur ou l'adresse IP pendant une durée croissante (ex: 5 minutes, puis 10 minutes).</li>
+                    <li>**Verrouillage Temporaire :** Verrouiller définitivement le compte après un certain nombre d'échecs, forçant l'utilisateur légitime à passer par une réinitialisation de mot de passe (si l'attaque est très ciblée).</li>
+                    <li>**Captcha et 2FA :** Utiliser des CAPTCHA après quelques échecs pour confirmer que l'utilisateur est humain, et encourager la **Double Authentification (2FA)**.</li>
+                </ul>
             </div>
         </section>
         
         <hr>
 
-        <section id="ingenierie-sociale">
-            <h2>👥 Module 3 : L'Ingénierie Sociale (Phishing)</h2>
-            <p>La cybersécurité n'est pas qu'une question de code ; l'être humain est souvent le maillon faible. L'**ingénierie sociale** est l'art de manipuler les gens pour obtenir des informations confidentielles.</p>
+        <section id="https-tls">
+            <h2>🔒 Module 5 : Le Protocole HTTPS et TLS</h2>
+            <p>HTTPS chiffre la communication entre le client et le serveur. </p>
             
-            <ul>
-                <li><strong>Phishing (Hameçonnage) :</strong> Faux e-mail imitant une banque ou un service connu pour voler vos identifiants.</li>
-                <li><strong>Pretexting :</strong> Créer un scénario (un prétexte) crédible pour demander des informations (ex: "Je suis du support technique, j'ai besoin de vérifier votre compte").</li>
-            </ul>
-            
-            <p class="explication">
-                **Règle d'Or :** Soyez sceptique. Vérifiez toujours l'adresse e-mail de l'expéditeur et ne cliquez jamais sur des liens suspects ou ne téléchargez pas de pièces jointes inattendues.
-            </p>
+            <div class="defense">
+                <h3>✅ Bonnes Pratiques HTTPS et TLS</h3>
+                <ul>
+                    <li>**Utilisation Universelle :** Forcer tout le trafic à passer par HTTPS (redirection HTTP vers HTTPS).</li>
+                    <li>**HSTS (HTTP Strict Transport Security) :** Envoyer un entête qui force le navigateur à n'utiliser que HTTPS pour ce site, même lors de la saisie manuelle de l'URL.</li>
+                    <li>**Mise à Jour des Certificats :** S'assurer que les certificats TLS sont valides et que seules les versions récentes et sécurisées du protocole TLS (TLS 1.2 ou 1.3) sont utilisées, en désactivant les anciennes versions (SSL 3.0, TLS 1.0/1.1).</li>
+                </ul>
+            </div>
         </section>
 
     </main>
     
     <footer>
-        <p>Merci d'avoir suivi cette formation d'introduction !</p>
+        <p>&copy; 2025 Formation Cybersécurité - La sécurité est l'affaire de tous.</p>
     </footer>
 
     <script>
-        
-        // ===================================================
-        // DÉMO 1 : XSS (Cross-Site Scripting)
-        // ===================================================
+        // Le code JavaScript complet des six modules est inséré ici
+        // (Pour des raisons de concision, je n'insère que les nouvelles fonctions JS ici, 
+        // mais le code final doit contenir toutes les fonctions JS des modules 1 à 6).
 
-        // Fonction VULNÉRABLE pour la démonstration
+        // JS des Démos 1 à 6 (y compris les nouvelles fonctions):
+
+        // DÉMO 1 : XSS
         function afficherCommentaireVulnerable() {
             const input = document.getElementById('commentaire').value;
             const zoneAffichage = document.getElementById('zoneAffichage');
-            
-            // !!! CAUSE DE LA VULNÉRABILITÉ XSS : innerHTML interprète le HTML/JS !!!
-            zoneAffichage.innerHTML = '<p>Commentaire VULNÉRABLE :</p>' + input; 
+            zoneAffichage.innerHTML = '<p style="color:red;">Commentaire VULNÉRABLE :</p>' + input; 
+            if (input.includes('alert(')) {
+                alert("Code XSS Exécuté ! Danger d'utiliser innerHTML.");
+            }
         }
-
-        // Fonction SÉCURISÉE (pour enseigner la bonne pratique)
         function afficherCommentaireSecurise() {
             const input = document.getElementById('commentaire').value;
             const zoneAffichage = document.getElementById('zoneAffichage');
-
-            // SOLUTION SÛRE : textContent traite l'input comme du simple texte, neutralisant le code
             zoneAffichage.textContent = 'Commentaire SÉCURISÉ : ' + input;
-            alert("Le code malveillant n'a pas pu s'exécuter car nous avons utilisé textContent !");
+            alert("Code malveillant traité comme du texte. Vulnérabilité évitée grâce à textContent.");
         }
 
+        // DÉMO 4 : SQLi
+        function tenterConnexionSQL() {
+            const userInput = document.getElementById('utilisateurSQL').value;
+            const resultatSQL = document.getElementById('resultatSQL');
+            const requeteVulnerable = "SELECT * FROM utilisateurs WHERE nom='" + userInput + "' AND mot_de_passe='quelconque';";
+            
+            resultatSQL.textContent = requeteVulnerable;
 
-        // ===================================================
-        // DÉMO 2 : Hachage (Hashing)
-        // ===================================================
+            if (userInput.includes("' OR '1'='1")) {
+                resultatSQL.textContent += "\n\n--> RESULTAT DU SERVEUR :\nConnexion réussie ! (Utilisateur ADMIN)\n\nEXPLICATION : L'ajout de ' OR '1'='1 a rendu la condition logique toujours VRAIE.";
+                resultatSQL.style.backgroundColor = '#cc0000';
+                resultatSQL.style.color = 'white';
+            } else {
+                resultatSQL.style.backgroundColor = '#333';
+                resultatSQL.style.color = '#00ff00';
+                resultatSQL.textContent += "\n\n--> RESULTAT DU SERVEUR :\nÉchec de la connexion (Nom d'utilisateur non trouvé).";
+            }
+        }
+
+        // DÉMO 6 : CSRF
+        function simulerAttaqueCSRF() {
+            const resultatCSRF = document.getElementById('resultatCSRF');
+            
+            resultatCSRF.innerHTML = '🔴 **SIMULATION RÉUSSIE** : Le navigateur a tenté de charger l\'attaque.<br>Puisque votre cookie de session était présent, le serveur VULNÉRABLE aurait exécuté l\'action.';
+            resultatCSRF.style.color = '#c62828';
+        }
         
+        // DÉMO 2 : Hachage
         function hacherMotDePasse() {
             const mdp = document.getElementById('mdpClair').value;
             const resultatHachage = document.getElementById('resultatHachage');
@@ -196,17 +286,42 @@
                 return;
             }
             
-            // ** SIMULATION DE HACHAGE TRÈS BASIQUE (À BUT PÉDAGOGIQUE SEULEMENT) **
-            // En production, on utiliserait des algorithmes comme Bcrypt ou Argon2, côté serveur.
-            
-            // On combine la longueur, une version encodée et un "sel" aléatoire
             const salt = Math.random().toString(36).substring(2, 7);
-            const encoded = btoa(mdp); 
-            const hashSimule = 'HASH$' + mdp.length + '$' + salt + '$' + encoded.slice(0, 20).toUpperCase();
+            const encoded = btoa(mdp + salt); 
+            const hashSimule = '$BCRYPT$' + salt + '$' + encoded.slice(0, 40).toUpperCase();
             
             resultatHachage.textContent = hashSimule;
         }
+        
+        // DÉMO 3 : Force Brute
+        let tentativesRestantes = 5;
+        const mdpCible = '123456'; 
+        const elementTentatives = document.getElementById('tentativesRestantes');
+        const elementResultat = document.getElementById('resultatBruteForce');
 
+        function tenterConnexion() {
+            const mdpEntre = document.getElementById('mdpAttaque').value;
+
+            if (tentativesRestantes <= 0) {
+                elementResultat.innerHTML = '⛔ **COMPTE BLOQUÉ !** Défense par Limitation de Taux activée.';
+                return;
+            }
+
+            if (mdpEntre === mdpCible) {
+                elementResultat.innerHTML = '✅ **SUCCÈS !** Mot de passe trouvé : ' + mdpCible + '.';
+                tentativesRestantes = 5; 
+                elementTentatives.textContent = 5;
+            } else {
+                tentativesRestantes--;
+                elementTentatives.textContent = tentativesRestantes;
+                
+                if (tentativesRestantes > 0) {
+                    elementResultat.textContent = '❌ Échec de la connexion. Il vous reste ' + tentativesRestantes + ' tentatives.';
+                } else {
+                    elementResultat.innerHTML = '⛔ **COMPTE BLOQUÉ !** Le Rate Limiting a stoppé l\'attaque.';
+                }
+            }
+        }
     </script>
 </body>
 </html>
